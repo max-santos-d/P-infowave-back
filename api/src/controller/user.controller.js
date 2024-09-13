@@ -30,8 +30,7 @@ export const index = async (req, res) => {
 
 export const show = async (req, res) => {
   try {
-    const response = await services.show(req.params.id);
-    return res.status(200).json(response);
+    return res.status(200).json(req.userParams);
   } catch (err) {
     console.log(err);
     return res.status(500).json({ messageError: err.message });
@@ -40,7 +39,7 @@ export const show = async (req, res) => {
 
 export const update = async (req, res) => {
   try {
-    const response = await services.update(req.params.id, req.body);
+    const response = await services.update(req.userParams._id, req.body);
     return res.status(200).json(response);
   } catch (err) {
     console.log(err);
@@ -50,7 +49,7 @@ export const update = async (req, res) => {
 
 export const deleted = async (req, res) => {
   try {
-    await services.deleted(req.params.id);
+    await services.deleted(req.userParams._id);
     return res.status(200).json({ message: "User deleted." });
   } catch (err) {
     console.log(err);

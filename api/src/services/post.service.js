@@ -1,26 +1,26 @@
-import mongoose from "mongoose";
+import { idValidation } from "../middlewares/global.middleware.js";
 import repositories from "../repositories/post.repositories.js";
 
-const store = async (id, body) => {
+import userRepositories from "../repositories/user.repositories.js";
+
+const store = async ({ user }, body) => {
   const { title, text, banner } = body;
 
-  if (!id) throw new Error("Required ID.");
-  if (!mongoose.Types.ObjectId.isValid(id)) throw new Error("Invalid ID.");
   if (!title || !text || !banner) throw new Error("Required Fields.");
+  if (!user) throw new Error("<user> parameter with user id not provided.");
 
-  const response = await repositories.store({ title, text, banner, user: id });
+  idValidation(user);
+
+  const userShow = await userRepositories.show(user);
+  if (!userShow) throw new Error("User not found.");
+
+  const response = await repositories.store({ title, text, banner, user: userShow });
   if (!response) throw new Error("Error creating user.");
   return response;
 };
 
-const index = async () => {
+const index = async () =>{
   return await repositories.index();
-};
-
-const show = async (id) => {
-  if (!id) throw new Error("Required ID.");
-  if (!mongoose.Types.ObjectId.isValid(id)) throw new Error("Invalid ID.");
-  return await repositories.show(id);
 };
 
 const update = async (id, body) => {
@@ -28,8 +28,6 @@ const update = async (id, body) => {
 
   if (!title && !text && !banner)
     throw new Error("At least one field is requeired.");
-  if (!id) throw new Error("ID Required.");
-  if (!mongoose.Types.ObjectId.isValid(id)) throw new Error("Invalid ID.");
 
   const response = await repositories.update(id, { title, text, banner });
 
@@ -38,18 +36,13 @@ const update = async (id, body) => {
 };
 
 const deleted = async (id) => {
-  if (!id) throw new Error("Required ID.");
-  if (!mongoose.Types.ObjectId.isValid(id)) throw new Error("Invalid ID.");
-
   const response = await repositories.deleted(id);
-  if (!response) throw new Error("Error when deleting.");
   return response;
 };
 
 export default {
   store,
   index,
-  show,
   update,
   deleted,
 };

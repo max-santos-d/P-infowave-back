@@ -24,21 +24,11 @@ const index = async () => {
   return response;
 };
 
-const show = async (id) => {
-  if (!id) throw new Error("ID Required.");
-  if (!mongoose.Types.ObjectId.isValid(id)) throw new Error("Invalid ID.");
-  const response = await repositories.show(id);
-  if (!response) throw new Error("User not found.");
-  return response;
-};
-
 const update = async (id, body) => {
   const { name, username, email, password, avatar } = body;
 
   if (!name && !username && !avatar && !email && !password)
     throw new Error("At least one field is requeired.");
-  if (!id) throw new Error("ID Required.");
-  if (!mongoose.Types.ObjectId.isValid(id)) throw new Error("Invalid ID.");
 
   const response = await repositories.updated(
     id,
@@ -50,14 +40,10 @@ const update = async (id, body) => {
   );
 
   if (!response) throw new Error("Error when updating.");
-
   return response;
 };
 
 const deleted = async (id) => {
-  if (!id) throw new Error("ID Required.");
-  if (!mongoose.Types.ObjectId.isValid(id)) throw new Error("Invalid ID.");
-  if (!(await repositories.show(id))) throw new Error("User not found.");
   const response = await repositories.deleted(id);
   return response;
 };
@@ -65,7 +51,6 @@ const deleted = async (id) => {
 export default {
   store,
   index,
-  show,
   update,
   deleted,
 };
