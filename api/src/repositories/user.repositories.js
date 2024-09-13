@@ -16,15 +16,48 @@ const updated = (id, name, username, email, password, avatar) =>
 
 const deleted = (id) => User.findByIdAndDelete({ _id: id });
 
+// Type User
+const indexType = (top) => User.find({ "userType.type": { $in: [top] } });
+
+const promotionOrg = (id) =>
+  User.findOneAndUpdate(
+    { _id: id, "userType.type": { $nin: ["organization"] } },
+    { $push: { userType: { type: "organization", created_at: new Date() } } }
+  );
+
+const promotionAdm = (id) =>
+  User.findOneAndUpdate(
+    { _id: id, "userType.type": { $nin: ["administration"] } },
+    { $push: { userType: { type: "administration", created_at: new Date() } } }
+  );
+
+const downgradeOrg = (id) =>
+  User.findOneAndUpdate(
+    { _id: id },
+    { $pull: { userType: { type: "organization" } } }
+  );
+
+const downgradeAdm = (id) =>
+  User.findOneAndUpdate(
+    { _id: id },
+    { $pull: { userType: { type: "administration" } } }
+  );
+
 export default {
   store,
   index,
   show,
   updated,
   deleted,
+
+  indexType,
+  promotionOrg,
+  promotionAdm,
+  downgradeOrg,
+  downgradeAdm,
 };
 
-/* Atualizando um array dentro de outro array
+/* Atualizar um array dentro de outro array
 
 SeuModel:
 {
