@@ -14,7 +14,7 @@ const store = async ({ user }, body) => {
   const userShow = await userRepositories.show(user);
   if (!userShow) throw new Error("User not found.");
 
-  const response = await repositories.store({ title, text, banner, user: userShow });
+  const response = await repositories.store({ title, text, banner, user: userShow._id });
   if (!response) throw new Error("Error creating user.");
   return response;
 };

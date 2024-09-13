@@ -13,7 +13,19 @@ export const store = async (req, res) => {
 export const index = async (_, res) => {
   try {
     const response = await services.index();
-    res.status(200).json(response);
+    res.status(200).json(
+      response.map((post) => ({
+        _id: post.id,
+        banner: post.banner,
+        title: post.title,
+        text: post.text,
+        user: post.user._id,
+        likes: post.likes.length,
+        comments: post.commments.length,
+        created_at: post.created_at,
+        updated_at: post.updated_at,
+      }))
+    );
   } catch (err) {
     console.log(err);
     res.status(500).json({ messageError: err.message });
