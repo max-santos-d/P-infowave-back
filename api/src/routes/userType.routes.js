@@ -2,11 +2,11 @@ import { Router } from "express";
 
 import { update, index, show, deleted } from "../controller/userType.controller.js";
 
-const userTypeRoutes = Router();
+const routes = Router();
 
-userTypeRoutes.get("/", index);
-userTypeRoutes.get("/:id", show);
-userTypeRoutes.patch("/:id", update);
-userTypeRoutes.delete("/:id", deleted);
+routes.get("/", index);
+routes.get("/:id", show);
+routes.patch("/:id", update);
+routes.delete("/:id", deleted);
 
-export default userTypeRoutes;
+export default routes;
