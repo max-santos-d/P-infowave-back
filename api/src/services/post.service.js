@@ -7,10 +7,10 @@ const store = async ({ user }, body) => {
   const { title, text, banner } = body;
 
   if (!title || !text || !banner) throw new Error("Required Fields.");
+
+  // Validando usuário
   if (!user) throw new Error("<user> parameter with user id not provided.");
-
   idValidation(user);
-
   const userShow = await userRepositories.show(user);
   if (!userShow) throw new Error("User not found.");
 
