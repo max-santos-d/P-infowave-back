@@ -12,6 +12,10 @@ const EventPostSchema = new mongoose.Schema(
     },
     banner: {
       type: String,
+      require: false,
+    },
+    type: {
+      type: String,
       require: true,
     },
     user: {
