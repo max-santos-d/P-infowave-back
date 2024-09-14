@@ -1,9 +1,6 @@
 import { Router } from "express";
 
-import {
-  index,
-  update,
-} from "../controller/postLike.controller.js";
+import { index, update } from "../controller/postLike.controller.js";
 import { postIdValidation } from "../middlewares/global.middleware.js";
 
 const routes = Router();

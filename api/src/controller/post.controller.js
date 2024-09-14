@@ -21,7 +21,7 @@ export const index = async (_, res) => {
         text: post.text,
         user: post.user._id,
         likes: post.likes.length,
-        comments: post.commments.length,
+        comments: post.comments.length,
         created_at: post.created_at,
         updated_at: post.updated_at,
       }))

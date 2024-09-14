@@ -19,4 +19,3 @@ export const update = async (req, res) => {
     res.status(500).json({ messageError: err.message });
   }
 };
-

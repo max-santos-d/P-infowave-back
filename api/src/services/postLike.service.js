@@ -2,7 +2,7 @@ import { idValidation } from "../middlewares/global.middleware.js";
 import userRepositories from "../repositories/user.repositories.js";
 import repositories from "../repositories/postLike.repositories.js";
 
-const index = async ({user}) => {
+const index = async ({ user }) => {
   // Validando usuário
   if (!user) throw new Error("<user> parameter with user id not provided.");
   idValidation(user);

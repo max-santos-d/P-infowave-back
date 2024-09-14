@@ -22,7 +22,7 @@ const EventPostSchema = new mongoose.Schema(
     likes: {
       type: Array,
     },
-    commments: {
+    comments: {
       type: Array,
     },
   },
