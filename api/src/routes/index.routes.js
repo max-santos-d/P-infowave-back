@@ -7,6 +7,7 @@ import postLikeRoutes from "./postLike.routes.js";
 import postMessageRoutes from "./postMessage.routes.js";
 import questionRoutes from "./question.routes.js";
 import questionLikeRoutes from "./questionLike.routes.js";
+import questionMessageRoutes from "./questionMessage.routes.js";
 
 const router = Router();
 
@@ -22,5 +23,6 @@ router.use("/postMessage", postMessageRoutes);
 // question
 router.use("/question", questionRoutes);
 router.use("/questionLike", questionLikeRoutes);
+router.use("/questionMessage", questionMessageRoutes)
 
 export default router;
