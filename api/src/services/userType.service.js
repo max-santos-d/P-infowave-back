@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-import repositories from "../repositories/user.repositories.js";
+import userRepositorie from "../repositories/user.repositorie.js";
 
 const index = async ({ type }) => {
   if (!type) throw new Error("No 'type' parameter informed.");
@@ -9,9 +9,9 @@ const index = async ({ type }) => {
 
   switch (type) {
     case "org":
-      return await repositories.indexType("organization");
+      return await userRepositorie.indexType("organization");
     case "adm":
-      return await repositories.indexType("administration");
+      return await userRepositorie.indexType("administration");
     default:
       return { message: "Invalid parameter." };
   }
@@ -23,7 +23,7 @@ const show = async (id, { type }) => {
   if (typeof type !== "string")
     throw new Error("Only one parameter must be sent.");
 
-  const response = await repositories.show(id);
+  const response = await userRepositorie.show(id);
   if (!response) throw new Error("User not found.");
   if (type === "adm")
     return response.userType.filter((i) => i.type === "administration");
@@ -34,18 +34,18 @@ const show = async (id, { type }) => {
 const update = async (id, { type }) => {
   let response;
   if (!mongoose.Types.ObjectId.isValid(id)) throw new Error("Invalid ID.");
-  if (!(await repositories.show(id))) throw new Error("User not found.");
+  if (!(await userRepositorie.show(id))) throw new Error("User not found.");
   if (!type) throw new Error("No 'type' parameter informed.");
   if (typeof type !== "string")
     throw new Error("Only one parameter must be sent.");
 
   switch (type) {
     case "org":
-      response = await repositories.promotionOrg(id);
+      response = await userRepositorie.promotionOrg(id);
       if (!response) throw new Error("User already has the required role.");
       return { message: "User updated." };
     case "adm":
-      response = await repositories.promotionAdm(id);
+      response = await userRepositorie.promotionAdm(id);
       if (!response) throw new Error("User already has the required role.");
       return { message: "User updated." };
     default:
@@ -56,21 +56,21 @@ const update = async (id, { type }) => {
 const deleted = async (id, { type }) => {
   let response;
   if (!mongoose.Types.ObjectId.isValid(id)) throw new Error("Invalid ID.");
-  if (!(await repositories.show(id))) throw new Error("User not found.");
+  if (!(await userRepositorie.show(id))) throw new Error("User not found.");
   if (!type) throw new Error("No 'type' parameter informed.");
   if (typeof type !== "string")
     throw new Error("Only one parameter must be sent.");
 
   switch (type) {
     case "org":
-      response = await repositories.downgradeOrg(id);
+      response = await userRepositorie.downgradeOrg(id);
       if (response)
         response = response.userType.filter((i) => i.type === "organization");
       if (!response.length)
         throw new Error("User already has the required role.");
       return { message: "User updated." };
     case "adm":
-      response = await repositories.downgradeAdm(id);
+      response = await userRepositorie.downgradeAdm(id);
       if (response)
         response = response.userType.filter((i) => i.type === "administration");
       if (!response.length)

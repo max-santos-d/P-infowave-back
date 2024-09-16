@@ -5,31 +5,31 @@ const UserSchema = new Schema(
   {
     name: {
       type: String,
-      require: true,
+      required: true,
     },
     username: {
       type: String,
-      require: true,
+      required: true,
       unique: true,
     },
     avatar: {
       type: String,
-      require: true,
+      required: true,
     },
     email: {
       type: String,
-      require: true,
+      required: true,
       unique: true,
       lowercase: true,
     },
     password: {
       type: String,
-      require: true,
+      required: true,
       select: false,
     },
     userType: {
       type: Array,
-      require: true,
+      required: true,
       default: [
         {
           type: "user",

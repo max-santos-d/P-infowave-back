@@ -1,18 +1,10 @@
 import mongoose from "mongoose";
 
-const PostSchema = new mongoose.Schema(
+const QuestionSchema = new mongoose.Schema(
   {
-    title: {
-      type: String,
-      required: true,
-    },
     text: {
       type: String,
       required: true,
-    },
-    banner: {
-      type: String,
-      required: false,
     },
     user: {
       type: mongoose.Schema.Types.ObjectId,
@@ -21,11 +13,11 @@ const PostSchema = new mongoose.Schema(
     },
     likes: {
       type: Array,
-      required: true
+      required: true,
     },
     comments: {
       type: Array,
-      required: true
+      required: true,
     },
   },
   {
@@ -36,6 +28,6 @@ const PostSchema = new mongoose.Schema(
   }
 );
 
-const Post = mongoose.model("Post", PostSchema);
+const Question = mongoose.model("Question", QuestionSchema);
 
-export default Post;
+export default Question;

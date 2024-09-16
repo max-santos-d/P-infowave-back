@@ -5,6 +5,8 @@ import userTypeRoutes from "./userType.routes.js";
 import postRoutes from "./post.routes.js";
 import postLikeRoutes from "./postLike.routes.js";
 import postMessageRoutes from "./postMessage.routes.js";
+import questionRoutes from "./question.routes.js";
+import questionLikeRoutes from "./questionLike.routes.js";
 
 const router = Router();
 
@@ -16,5 +18,9 @@ router.use("/userType", userTypeRoutes);
 router.use("/post", postRoutes);
 router.use("/postLike", postLikeRoutes);
 router.use("/postMessage", postMessageRoutes);
+
+// question
+router.use("/question", questionRoutes);
+router.use("/questionLike", questionLikeRoutes);
 
 export default router;

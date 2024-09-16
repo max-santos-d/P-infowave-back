@@ -27,7 +27,7 @@ export const deleted = async (req, res) => {
       return res
         .status(500)
         .json({ messageError: "Unexpected error when deleting comment." });
-    return res.status(200).json({ message: "Comment deleted." });
+    return res.status(200).json({ message: response });
   } catch (err) {
     console.log(err);
     return res.status(500).json({ messageError: err.message });

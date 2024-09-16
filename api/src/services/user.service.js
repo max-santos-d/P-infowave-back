@@ -1,5 +1,5 @@
-import mongoose from "mongoose";
-import repositories from "../repositories/user.repositories.js";
+import userRepositorie from "../repositories/user.repositorie.js";
+
 
 const store = async (body) => {
   const { name, username, email, password, avatar } = body;
@@ -7,7 +7,7 @@ const store = async (body) => {
   if (!name || !username || !avatar || !email || !password)
     throw new Error("Required Fields.");
 
-  const response = await repositories.store(
+  const response = await userRepositorie.store(
     name,
     username,
     email,
@@ -20,7 +20,7 @@ const store = async (body) => {
 };
 
 const index = async () => {
-  const response = await repositories.index();
+  const response = await userRepositorie.index();
   return response;
 };
 
@@ -30,7 +30,7 @@ const update = async (id, body) => {
   if (!name && !username && !avatar && !email && !password)
     throw new Error("At least one field is requeired.");
 
-  const response = await repositories.updated(
+  const response = await userRepositorie.updated(
     id,
     name,
     username,
@@ -44,7 +44,7 @@ const update = async (id, body) => {
 };
 
 const deleted = async (id) => {
-  const response = await repositories.deleted(id);
+  const response = await userRepositorie.deleted(id);
   return response;
 };
 

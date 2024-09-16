@@ -1,6 +1,6 @@
 import { idValidation } from "../middlewares/global.middleware.js";
+import questionLikeRepositorie from "../repositories/questionLike.repositorie.js";
 import userRepositorie from "../repositories/user.repositorie.js";
-import postLikeRepositorie from "../repositories/postLike.repositorie.js";
 
 const index = async ({ user }) => {
   // Validando usuário
@@ -9,22 +9,26 @@ const index = async ({ user }) => {
   const userShow = await userRepositorie.show(user);
   if (!userShow) throw new Error("User not found.");
 
-  return await postLikeRepositorie.index(user);
+  return await questionLikeRepositorie.index(user);
 };
 
-const update = async ({ user }, post) => {
+const update = async (question, { user }) => {
   // Validando usuário
   if (!user) throw new Error("<user> parameter with user id not provided.");
   idValidation(user);
   const userShow = await userRepositorie.show(user);
   if (!userShow) throw new Error("User not found.");
 
-  const response = await postLikeRepositorie.show(post, user);
-  if (response.length) return await postLikeRepositorie.remove(post, user);
-  return await postLikeRepositorie.add(post, user);
+  const findQuestion = await questionLikeRepositorie.show(question, user);
+  if (findQuestion.length) {
+    await questionLikeRepositorie.remove(question, user);
+    return "Like removed.";
+  }
+  await questionLikeRepositorie.add(question, user);
+  return "Like added.";
 };
 
 export default {
-  update,
   index,
+  update,
 };
