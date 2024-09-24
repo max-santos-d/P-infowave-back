@@ -3,7 +3,7 @@ import services from "../services/user.service.js";
 export const store = async (req, res) => {
   try {
     await services.store(req.body);
-    return res.status(200).json({ message: "User created." });
+    return res.status(200).json({ response: "User created." });
   } catch (err) {
     console.log(err);
     return res.status(500).json({ messageError: err.message });
@@ -50,7 +50,7 @@ export const update = async (req, res) => {
 export const deleted = async (req, res) => {
   try {
     await services.deleted(req.userParams._id);
-    return res.status(200).json({ message: "User deleted." });
+    return res.status(200).json({ response: "User deleted." });
   } catch (err) {
     console.log(err);
     return res.status(500).json({ messageError: err.message });
