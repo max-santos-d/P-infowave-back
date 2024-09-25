@@ -17,7 +17,7 @@ routes.get("/:id", userIdValidation, show);
 
 routes.use(authChekerMiddleware);
 routes.post("/", store);
-routes.patch("/:id", userIdValidation, update);
-routes.delete("/:id", userIdValidation, deleted);
+routes.patch("/", update);
+routes.delete("/", deleted);
 
 export default routes;

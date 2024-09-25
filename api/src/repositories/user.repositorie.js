@@ -7,6 +7,8 @@ const index = () => User.find();
 
 const show = (id) => User.findById({ _id: id });
 
+const showPassword = (id) => User.findById({ _id: id }).select("+password");
+
 const updated = (id, name, username, email, password, avatar) =>
   User.findByIdAndUpdate(
     { _id: id },
@@ -47,6 +49,7 @@ export default {
   store,
   index,
   show,
+  showPassword,
   updated,
   deleted,
 

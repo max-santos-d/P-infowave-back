@@ -1,5 +1,6 @@
-import userRepositorie from "../repositories/user.repositorie.js";
+import bcrypt from "bcrypt";
 
+import userRepositorie from "../repositories/user.repositorie.js";
 
 const store = async (body) => {
   const { name, username, email, password, avatar } = body;
@@ -43,7 +44,13 @@ const update = async (id, body) => {
   return response;
 };
 
-const deleted = async (id) => {
+const deleted = async (id, { password }) => {
+  if (!password) throw new Error("Password required.");
+
+  const user = await userRepositorie.showPassword(id);
+  const passwordValdation = bcrypt.compareSync(password, user.password);
+  if (!passwordValdation) throw new Error("Invalid password");
+
   const response = await userRepositorie.deleted(id);
   return response;
 };

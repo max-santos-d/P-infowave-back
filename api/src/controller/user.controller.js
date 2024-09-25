@@ -39,20 +39,20 @@ export const show = async (req, res) => {
 
 export const update = async (req, res) => {
   try {
-    const response = await services.update(req.userParams._id, req.body);
-    return res.status(200).json(response);
+    const response = await services.update(req.requestUserId, req.body);
+    return res.status(200).json({ response });
   } catch (err) {
     console.log(err);
-    return res.status(500).json({ messageError: err.message });
+    return res.status(500).json({ response: err.message });
   }
 };
 
 export const deleted = async (req, res) => {
   try {
-    await services.deleted(req.userParams._id);
-    return res.status(200).json({ response: "User deleted." });
+    const response = await services.deleted(req.requestUserId, req.query);
+    return res.status(200).json({ response: "User deleted.", user: response });
   } catch (err) {
     console.log(err);
-    return res.status(500).json({ messageError: err.message });
+    return res.status(500).json({ response: err.message });
   }
 };
