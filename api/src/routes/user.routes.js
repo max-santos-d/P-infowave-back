@@ -12,11 +12,11 @@ import { authChekerMiddleware } from "../middlewares/auth.middleware.js";
 
 const routes = Router();
 
+routes.post("/", store);
 routes.get("/", index);
 routes.get("/:id", userIdValidation, show);
 
 routes.use(authChekerMiddleware);
-routes.post("/", store);
 routes.patch("/", update);
 routes.delete("/", deleted);
 

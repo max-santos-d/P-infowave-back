@@ -1,24 +1,15 @@
-import { idValidation } from "../middlewares/global.middleware.js";
 import postRepositorie from "../repositories/post.repositorie.js";
 
-import userRepositorie from "../repositories/user.repositorie.js";
-
-const store = async ({ user }, body) => {
+const store = async (user, body) => {
   const { title = "", text = "", banner = "" } = body;
 
   if (!title || !text || !banner) throw new Error("Required Fields.");
-
-  // Validando usuário
-  if (!user) throw new Error("<user> parameter with user id not provided.");
-  idValidation(user);
-  const userShow = await userRepositorie.show(user);
-  if (!userShow) throw new Error("User not found.");
 
   const response = await postRepositorie.store({
     title,
     text,
     banner,
-    user: userShow._id,
+    user,
   });
 
   if (!response) throw new Error("Error creating user.");

@@ -7,16 +7,20 @@ import {
   update,
   deleted,
 } from "../controller/post.controller.js";
-import { postIdValidation } from "../middlewares/global.middleware.js";
+import {
+  organizerUserValidation,
+  postIdValidation,
+} from "../middlewares/global.middleware.js";
 import { authChekerMiddleware } from "../middlewares/auth.middleware.js";
 
 const routes = Router();
 
-routes.post("/", store);
 routes.get("/", index);
+routes.get("/:id", postIdValidation, show);
 
 routes.use(authChekerMiddleware);
-routes.get("/:id", postIdValidation, show);
+routes.use(organizerUserValidation);
+routes.post("/", store);
 routes.patch("/:id", postIdValidation, update);
 routes.delete("/:id", postIdValidation, deleted);
 
