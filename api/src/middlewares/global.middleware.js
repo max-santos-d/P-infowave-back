@@ -93,4 +93,47 @@ export const organizerUserValidation = async (req, res, next) => {
   }
 };
 
-export const administratorUserValidation = (req, res, next) => {};
+export const administratorUserValidation = async (req, res, next) => {
+  try {
+    const userRequestId = req.requestUserId;
+    const userToUpdateId = req.userParams._id;
+    const { param } = req.query;
+
+    if (!param) throw new Error("<param> parameter not provided by query.");
+    if (typeof param !== "string")
+      throw new Error("Only one parameter must be sent.");
+
+    const userTypeRequest = await userRepositorie
+      .show(userRequestId)
+      .then((i) => i.userType);
+
+    if (!userTypeRequest.filter((el) => el.type === "administration").length)
+      return res.status(401).json({
+        messageError:
+          "You do not have the necessary authentication to make the request",
+      });
+
+    const userToUpdate = (await userRepositorie.show(userToUpdateId)).userType;
+
+    if (!userToUpdate.filter((el) => el.type === "administration").length)
+      return next();
+    else {
+      const [dateUserRequest] = userTypeRequest.filter(
+        (i) => i.type === "administration"
+      );
+      const [dateUsertoUpdate] = userToUpdate.filter(
+        (i) => i.type === "administration"
+      );
+
+      if (dateUserRequest.created_at <= dateUsertoUpdate.created_at)
+        return next();
+    }
+    return res.status(500).json({
+      responseError:
+        "You do not have the necessary authentication to make the request.",
+    });
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({ responseError: err.message });
+  }
+};

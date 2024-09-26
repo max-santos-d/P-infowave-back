@@ -18,7 +18,7 @@ const updated = (id, name, username, email, password, avatar) =>
 
 const deleted = (id) => User.findByIdAndDelete({ _id: id });
 
-// Type User
+// Type User funcitons
 const indexType = (top) => User.find({ "userType.type": { $in: [top] } });
 
 const promotionOrg = (id) =>
