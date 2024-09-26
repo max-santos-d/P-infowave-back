@@ -27,14 +27,25 @@ const index = async () => {
   }));
 };
 
-const update = async (question, { text }) => {
+const update = async (userRequest, question, text) => {
   if (!text) throw new Error("Required Fields <text>.");
+
+  const findQuestion = await questionRepositorie.show(question);
+
+  if (String(findQuestion.user._id) !== String(userRequest))
+    throw new Error("You are not authorized to make this request.");
+
   const response = await questionRepositorie.update(question, { text });
   if (!response) throw new Error("Error when updating.");
   return response;
 };
 
-const deleted = async (question) => {
+const deleted = async (userRequest, question) => {
+  const findQuestion = await questionRepositorie.show(question);
+
+  if (String(findQuestion.user._id) !== String(userRequest))
+    throw new Error("You are not authorized to make this request.");
+
   const response = await questionRepositorie.deleted(question);
   if (!response) throw new Error("Error when updating.");
   return "Question deleted";

@@ -32,8 +32,9 @@ export const show = (req, res) => {
 export const update = async (req, res) => {
   try {
     const response = await questionService.update(
+      req.requestUserId,
       req.questionParams._id,
-      req.body
+      req.body.text
     );
     return res.status(200).json({ response });
   } catch (err) {
@@ -44,7 +45,10 @@ export const update = async (req, res) => {
 
 export const deleted = async (req, res) => {
   try {
-    const response = await questionService.deleted(req.questionParams._id);
+    const response = await questionService.deleted(
+      req.requestUserId,
+      req.questionParams._id
+    );
     return res.status(200).json({ response });
   } catch (err) {
     console.log(err);
