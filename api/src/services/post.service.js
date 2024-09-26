@@ -13,11 +13,28 @@ const store = async (user, body) => {
   });
 
   if (!response) throw new Error("Error creating user.");
-  return "Successfully created.";
+
+  return response;
 };
 
 const index = async () => {
-  return await postRepositorie.index();
+  const response = await postRepositorie.index();
+  return response.map((post) => ({
+    _id: post.id,
+    banner: post.banner,
+    title: post.title,
+    text: post.text,
+    user: {
+      _id: post.user?._id,
+      name: post.user?.name,
+      username: post.user?.username,
+      avatar: post.user?.avatar,
+    },
+    likes: post.likes.length,
+    comments: post.comments.length,
+    created_at: post.created_at,
+    updated_at: post.updated_at,
+  }));
 };
 
 const update = async (id, body) => {
@@ -33,8 +50,8 @@ const update = async (id, body) => {
 };
 
 const deleted = async (id) => {
-  const response = await postRepositorie.deleted(id);
-  return response;
+  await postRepositorie.deleted(id);
+  return "Post deleted.";
 };
 
 export default {

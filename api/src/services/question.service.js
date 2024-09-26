@@ -1,26 +1,34 @@
-import { idValidation } from "../middlewares/global.middleware.js";
 import questionRepositorie from "../repositories/question.repositorie.js";
-import userRepositorie from "../repositories/user.repositorie.js";
 
-const store = async ({ user = "" }, { text = "" }) => {
-  // Validando usuário
-  if (!user) throw new Error("<user> parameter with user id not provided.");
-  idValidation(user);
-  const userShow = await userRepositorie.show(user);
-  if (!userShow) throw new Error("User not found.");
-
+const store = async (user, { text }) => {
   if (!text) throw new Error("Required Fields.");
+  console.log(text);
   const response = await questionRepositorie.store(text, user);
   if (!response) throw new Error("Error creating question.");
   return "Successfully created.";
 };
 
-const index = () => {
-  return questionRepositorie.index();
+const index = async () => {
+  const response = await questionRepositorie.index();
+
+  return response.map((question) => ({
+    _id: question._id,
+    text: question.text,
+    user: {
+      _id: question.user?._id,
+      name: question?.user?.name,
+      username: question.user?.username,
+      avatar: question.user?.avatar,
+    },
+    likes: question.likes.length,
+    comments: question.comments.length,
+    created_at: question.created_at,
+    updated_at: question.updated_at,
+  }));
 };
 
-const update = async (question, { text = "" }) => {
-  if (!text) throw new Error("Required Fields.");
+const update = async (question, { text }) => {
+  if (!text) throw new Error("Required Fields <text>.");
   const response = await questionRepositorie.update(question, { text });
   if (!response) throw new Error("Error when updating.");
   return response;

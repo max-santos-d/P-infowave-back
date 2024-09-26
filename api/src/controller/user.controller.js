@@ -1,4 +1,4 @@
-import services from "../services/user.service.js";
+import userService from "../services/user.service.js";
 
 export const store = async (req, res) => {
   try {
@@ -6,53 +6,45 @@ export const store = async (req, res) => {
     return res.status(200).json({ response: "User created." });
   } catch (err) {
     console.log(err);
-    return res.status(500).json({ messageError: err.message });
+    return res.status(500).json({ responseError: err.message });
   }
 };
 
-export const index = async (req, res) => {
+export const index = async (_, res) => {
   try {
-    const response = await services.index();
-    return res.status(200).json(
-      response.map((user) => ({
-        id: user._id,
-        name: user.name,
-        username: user.username,
-        avatar: user.avatar,
-        email: user.email,
-      }))
-    );
+    const response = await userService.index();
+    return res.status(200).json({ response });
   } catch (err) {
     console.log(err);
-    return res.status(500).json({ messageError: err.message });
+    return res.status(500).json({ responseError: err.message });
   }
 };
 
 export const show = async (req, res) => {
   try {
-    return res.status(200).json(req.userParams);
+    return res.status(200).json({ response: req.userParams });
   } catch (err) {
     console.log(err);
-    return res.status(500).json({ messageError: err.message });
+    return res.status(500).json({ responseError: err.message });
   }
 };
 
 export const update = async (req, res) => {
   try {
-    const response = await services.update(req.requestUserId, req.body);
+    const response = await userService.update(req.requestUserId, req.body);
     return res.status(200).json({ response });
   } catch (err) {
     console.log(err);
-    return res.status(500).json({ response: err.message });
+    return res.status(500).json({ responseError: err.message });
   }
 };
 
 export const deleted = async (req, res) => {
   try {
-    const response = await services.deleted(req.requestUserId, req.query);
+    const response = await userService.deleted(req.requestUserId, req.query);
     return res.status(200).json({ response: "User deleted.", user: response });
   } catch (err) {
     console.log(err);
-    return res.status(500).json({ response: err.message });
+    return res.status(500).json({ responseError: err.message });
   }
 };

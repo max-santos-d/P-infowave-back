@@ -24,7 +24,8 @@ const deleted = async (post, { comment }) => {
   const findComment = await postMessageRepositorie.show(post, comment);
   if (!findComment.length) return "Comment not found.";
   const response = postMessageRepositorie.deleted(post, comment);
-  if (response) return "Comment deleted.";
+  if (!response) throw new Error("Error when deleting");
+  return "Comment deleted.";
 };
 
 export default {

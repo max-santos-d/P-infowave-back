@@ -2,16 +2,15 @@ import { idValidation } from "../middlewares/global.middleware.js";
 import userRepositorie from "../repositories/user.repositorie.js";
 import questionMessageRepositorie from "../repositories/questionMessage.repositorie.js";
 
-const store = async ({ user, text }, question) => {
-  if (!user && !text) throw new Error("Required Fields.");
+const store = async (user, question, { comment }) => {
+  if (!comment) throw new Error("Required Fields <comment>.");
 
-  // Validando usuário
-  if (!user) throw new Error("<user> parameter with user id not provided.");
-  idValidation(user);
-  const userShow = await userRepositorie.show(user);
-  if (!userShow) throw new Error("User not found.");
+  const response = await questionMessageRepositorie.store(
+    question,
+    user,
+    comment
+  );
 
-  const response = await questionMessageRepositorie.store(question, user, text);
   if (!response) throw new Error("Error when creating comment.");
   return response;
 };

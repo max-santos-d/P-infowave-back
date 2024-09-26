@@ -1,6 +1,6 @@
 import Question from "../models/Question.js";
 
-const store = (question, user, text) =>
+const store = (question, user, comment) =>
   Question.findOneAndUpdate(
     { _id: question },
     {
@@ -8,7 +8,7 @@ const store = (question, user, text) =>
         comments: {
           _id: crypto.randomUUID(),
           user,
-          text,
+          comment,
           createdAt: new Date(),
         },
       },

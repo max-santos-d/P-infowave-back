@@ -9,14 +9,18 @@ export const authChekerMiddleware = (req, res, next) => {
     if (!authorization)
       return res
         .status(400)
-        .json({ response: "Authorization token not provided!" });
+        .json({ responseError: "Authorization token not provided!" });
 
     const [schema, token] = authorization.split(" ");
 
     if (!schema || !token)
-      return res.status(401).json({ response: "Token verification error!" });
+      return res
+        .status(401)
+        .json({ responseError: "Token verification error!" });
     if (schema !== "Bearer")
-      return res.status(401).json({ response: "Token verification error!" });
+      return res
+        .status(401)
+        .json({ responseError: "Token verification error!" });
 
     jwt.verify(token, process.env.SECRET_JWT, async (err, decoded) => {
       if (err)
@@ -25,13 +29,15 @@ export const authChekerMiddleware = (req, res, next) => {
       const user = await userRepositorie.show(decoded.id);
 
       if (!user)
-        return res.status(401).json({ response: "Request user not found!" });
+        return res
+          .status(401)
+          .json({ responseError: "Request user not found!" });
 
       req.requestUserId = user._id;
       return next();
     });
   } catch (err) {
     console.log(err);
-    return res.status(500).json({ response: err.message });
+    return res.status(500).json({ responseError: err.message });
   }
 };

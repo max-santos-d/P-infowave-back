@@ -6,10 +6,9 @@ import { authChekerMiddleware } from "../middlewares/auth.middleware.js";
 
 const routes = Router();
 
-routes.get("/", index);
-
 // auth
 routes.use(authChekerMiddleware);
+routes.get("/", index);
 routes.patch("/:id", postIdValidation, update);
 
 export default routes;

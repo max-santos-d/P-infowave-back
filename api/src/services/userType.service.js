@@ -3,38 +3,58 @@ import mongoose from "mongoose";
 import userRepositorie from "../repositories/user.repositorie.js";
 
 const index = async ({ type }) => {
+  let response;
   if (!type) throw new Error("No 'type' parameter informed.");
   if (typeof type !== "string")
     throw new Error("Only one parameter must be sent.");
 
   switch (type) {
     case "org":
-      return await userRepositorie.indexType("organization");
+      response = await userRepositorie.indexType("organization");
+      break;
     case "adm":
-      return await userRepositorie.indexType("administration");
+      response = await userRepositorie.indexType("administration");
+      break;
     default:
-      return { message: "Invalid parameter." };
+      throw new Error("Invalid parameter.");
   }
+
+  return response.map((user) => ({
+    id: user._id,
+    name: user.name,
+    username: user.username,
+    avatar: user.avatar,
+    email: user.email,
+  }));
 };
 
 const show = async (id, { type }) => {
-  if (!mongoose.Types.ObjectId.isValid(id)) throw new Error("Invalid ID.");
+  let response;
+
   if (!type) throw new Error("No 'type' parameter informed.");
   if (typeof type !== "string")
     throw new Error("Only one parameter must be sent.");
 
-  const response = await userRepositorie.show(id);
-  if (!response) throw new Error("User not found.");
-  if (type === "adm")
-    return response.userType.filter((i) => i.type === "administration");
-  if (type === "org")
-    return response.userType.filter((i) => i.type === "organization");
+  const user = await userRepositorie.show(id);
+  if (!user) throw new Error("User not found.");
+
+  switch (type) {
+    case "adm":
+      [response] = user.userType.filter((i) => i.type === "administration");
+      break;
+    case "org":
+      [response] = user.userType.filter((i) => i.type === "organization");
+      break;
+    default:
+      throw new Error(
+        "Invalid type argument! Please make a request using a query parameter with the value 'adm' or 'org'."
+      );
+  }
+  return response;
 };
 
 const update = async (id, { type }) => {
   let response;
-  if (!mongoose.Types.ObjectId.isValid(id)) throw new Error("Invalid ID.");
-  if (!(await userRepositorie.show(id))) throw new Error("User not found.");
   if (!type) throw new Error("No 'type' parameter informed.");
   if (typeof type !== "string")
     throw new Error("Only one parameter must be sent.");
@@ -43,20 +63,22 @@ const update = async (id, { type }) => {
     case "org":
       response = await userRepositorie.promotionOrg(id);
       if (!response) throw new Error("User already has the required role.");
-      return { message: "User updated." };
+      break;
     case "adm":
       response = await userRepositorie.promotionAdm(id);
       if (!response) throw new Error("User already has the required role.");
-      return { message: "User updated." };
+      break;
     default:
-      return { message: "Invalid parameter." };
+      throw new Error(
+        "Invalid type argument! Please make a request using a query parameter with the value 'adm' or 'org'."
+      );
   }
+
+  return "User updated.";
 };
 
 const deleted = async (id, { type }) => {
   let response;
-  if (!mongoose.Types.ObjectId.isValid(id)) throw new Error("Invalid ID.");
-  if (!(await userRepositorie.show(id))) throw new Error("User not found.");
   if (!type) throw new Error("No 'type' parameter informed.");
   if (typeof type !== "string")
     throw new Error("Only one parameter must be sent.");
@@ -64,21 +86,19 @@ const deleted = async (id, { type }) => {
   switch (type) {
     case "org":
       response = await userRepositorie.downgradeOrg(id);
-      if (response)
-        response = response.userType.filter((i) => i.type === "organization");
-      if (!response.length)
-        throw new Error("User already has the required role.");
-      return { message: "User updated." };
+      break;
     case "adm":
       response = await userRepositorie.downgradeAdm(id);
-      if (response)
-        response = response.userType.filter((i) => i.type === "administration");
-      if (!response.length)
-        throw new Error("User already has the required role.");
-      return { message: "User updated." };
+      break;
     default:
-      return { message: "Invalid parameter." };
+      throw new Error(
+        "Invalid type argument! Please make a request using a query parameter with the value 'adm' or 'org'."
+      );
   }
+
+  if (!response.userType.filter((i) => i.type === "organization").length)
+    return "The user already presents the requested parameter.";
+  return "Updated user type.";
 };
 
 export default {

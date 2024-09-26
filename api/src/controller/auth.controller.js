@@ -6,6 +6,6 @@ export const auth = async (req, res) => {
     return res.status(200).json({ response });
   } catch (err) {
     console.log(err);
-    return res.status(500).json({ response: err.message });
+    return res.status(500).json({ responseError: err.message });
   }
 };

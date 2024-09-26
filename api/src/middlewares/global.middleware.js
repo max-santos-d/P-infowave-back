@@ -17,7 +17,7 @@ export const userIdValidation = async (req, res, next) => {
     next();
   } catch (err) {
     console.log(err);
-    return res.status(500).send({ response: err.message });
+    return res.status(500).send({ responseError: err.message });
   }
 };
 
@@ -45,7 +45,7 @@ export const postIdValidation = async (req, res, next) => {
     next();
   } catch (err) {
     console.log(err);
-    return res.status(500).send({ response: err.message });
+    return res.status(500).send({ responseError: err.message });
   }
 };
 
@@ -61,10 +61,10 @@ export const questionIdValidation = async (req, res, next) => {
       text: question.text,
       banner: question.banner,
       user: {
-        _id: question.user._id,
-        name: question.user.name,
-        username: question.user.username,
-        avatar: question.user.avatar,
+        _id: question.user?._id,
+        name: question.user?.name,
+        username: question.user?.username,
+        avatar: question.user?.avatar,
       },
       likes: question.likes,
       comments: question.comments,
@@ -74,7 +74,7 @@ export const questionIdValidation = async (req, res, next) => {
     next();
   } catch (err) {
     console.log(err);
-    return res.status(500).send({ response: err.message });
+    return res.status(500).send({ responseError: err.message });
   }
 };
 
@@ -89,6 +89,6 @@ export const organizerUserValidation = async (req, res, next) => {
     next();
   } catch (err) {
     console.log(err);
-    return res.status(500).send({ response: err.message });
+    return res.status(500).send({ responseError: err.message });
   }
 };
