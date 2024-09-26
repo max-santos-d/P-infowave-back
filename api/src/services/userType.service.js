@@ -34,21 +34,10 @@ const show = async (id, param) => {
     throw new Error("Only one parameter must be sent.");
 
   const user = await userRepositorie.show(id);
+
   if (!user) throw new Error("User not found.");
 
-  switch (param) {
-    case "adm":
-      [response] = user.userType.filter((i) => i.type === "administration");
-      break;
-    case "org":
-      [response] = user.userType.filter((i) => i.type === "organization");
-      break;
-    default:
-      throw new Error(
-        "Invalid type argument! Please make a request using a query parameter with the value 'adm' or 'org'."
-      );
-  }
-  return response;
+  return (await userRepositorie.show(id)).userType;
 };
 
 const update = async (userToUpdate, param) => {
