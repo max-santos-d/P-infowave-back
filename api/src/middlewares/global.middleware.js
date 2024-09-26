@@ -4,7 +4,7 @@ import userRepositorie from "../repositories/user.repositorie.js";
 import postRepositorie from "../repositories/post.repositorie.js";
 import questionRepositorie from "../repositories/question.repositorie.js";
 
-export const idValidation = (id) => {
+const idValidation = (id) => {
   if (!mongoose.Types.ObjectId.isValid(id)) throw new Error("Invalid ID.");
 };
 
@@ -92,3 +92,5 @@ export const organizerUserValidation = async (req, res, next) => {
     return res.status(500).send({ responseError: err.message });
   }
 };
+
+export const administratorUserValidation = (req, res, next) => {};

@@ -1,5 +1,3 @@
-import { idValidation } from "../middlewares/global.middleware.js";
-import userRepositorie from "../repositories/user.repositorie.js";
 import questionMessageRepositorie from "../repositories/questionMessage.repositorie.js";
 
 const store = async (user, question, { comment }) => {

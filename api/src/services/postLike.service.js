@@ -1,5 +1,3 @@
-import { idValidation } from "../middlewares/global.middleware.js";
-import userRepositorie from "../repositories/user.repositorie.js";
 import postLikeRepositorie from "../repositories/postLike.repositorie.js";
 
 const index = async (user) => {
