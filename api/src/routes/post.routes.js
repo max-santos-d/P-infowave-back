@@ -1,15 +1,15 @@
 import { Router } from 'express';
 
 import {
-	index,
-	show,
-	store,
-	update,
-	deleted,
+  index,
+  show,
+  store,
+  update,
+  deleted,
 } from '../controller/post.controller.js';
 import {
-	organizerUserValidation,
-	postIdValidation,
+  organizerUserValidation,
+  postIdValidation,
 } from '../middlewares/global.middleware.js';
 import { authChekerMiddleware } from '../middlewares/auth.middleware.js';
 

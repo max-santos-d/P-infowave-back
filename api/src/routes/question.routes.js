@@ -1,11 +1,11 @@
 import { Router } from 'express';
 
 import {
-	index,
-	show,
-	store,
-	update,
-	deleted,
+  index,
+  show,
+  store,
+  update,
+  deleted,
 } from '../controller/question.controller.js';
 import { questionIdValidation } from '../middlewares/global.middleware.js';
 import { authChekerMiddleware } from '../middlewares/auth.middleware.js';

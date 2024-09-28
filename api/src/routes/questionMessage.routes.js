@@ -1,9 +1,9 @@
 import { Router } from 'express';
 import { questionIdValidation } from '../middlewares/global.middleware.js';
 import {
-	deleted,
-	index,
-	store,
+  deleted,
+  index,
+  store,
 } from '../controller/questionMessage.controller.js';
 import { authChekerMiddleware } from '../middlewares/auth.middleware.js';
 
