@@ -1,9 +1,9 @@
-import express from "express";
-import cors from "cors";
-import { configDotenv } from "dotenv";
+import express from 'express';
+import cors from 'cors';
+import { configDotenv } from 'dotenv';
 
-import conectDatabase from "./src/database/db.js";
-import router from "./src/routes/index.routes.js";
+import conectDatabase from './src/database/db.js';
+import router from './src/routes/index.routes.js';
 
 configDotenv();
 await conectDatabase();
