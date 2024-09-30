@@ -8,10 +8,5 @@
   "arrowParens": "always",
   "bracketSpacing": true,
   "endOfLine": "lf",
-  "htmlWhitespaceSensitivity": "ignore",
-  "insertPragma": false,
-  "jsxSingleQuote": true,
-  "proseWrap": "always",
-  "requirePragma": false,
-  "arrowFunctionParens": true
+  "jsxSingleQuote": true
 }
