@@ -47,7 +47,7 @@ const UserSchema = new Schema(
       createdAt: 'created_at',
       updatedAt: 'updated_at',
     },
-  },
+  }
 );
 
 UserSchema.pre('save', function (next) {

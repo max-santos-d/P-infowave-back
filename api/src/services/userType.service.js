@@ -3,8 +3,7 @@ import userRepositorie from '../repositories/user.repositorie.js';
 const index = async (param) => {
   let response;
   if (!param) throw new Error("No 'param' parameter informed.");
-  if (typeof param !== 'string')
-    throw new Error('Only one parameter must be sent.');
+  if (typeof param !== 'string') throw new Error('Only one parameter must be sent.');
 
   switch (param) {
     case 'org':
@@ -28,8 +27,7 @@ const index = async (param) => {
 
 const show = async (id, param) => {
   if (!param) throw new Error("No 'param' parameter informed.");
-  if (typeof param !== 'string')
-    throw new Error('Only one parameter must be sent.');
+  if (typeof param !== 'string') throw new Error('Only one parameter must be sent.');
 
   const user = await userRepositorie.show(id);
 
@@ -50,11 +48,10 @@ const update = async (userToUpdate, param) => {
       break;
     default:
       throw new Error(
-        "Invalid type argument! Please make a request using a query parameter with the value 'adm' or 'org'.",
+        "Invalid type argument! Please make a request using a query parameter with the value 'adm' or 'org'."
       );
   }
-  if (!response)
-    return 'The user is already presented with the requested parameter.';
+  if (!response) return 'The user is already presented with the requested parameter.';
 
   return 'User updated.';
 };
@@ -71,7 +68,7 @@ const deleted = async (userToUpdate, param) => {
       break;
     default:
       throw new Error(
-        "Invalid type argument! Please make a request using a query parameter with the value 'adm' or 'org'.",
+        "Invalid type argument! Please make a request using a query parameter with the value 'adm' or 'org'."
       );
   }
 

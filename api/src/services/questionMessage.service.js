@@ -3,11 +3,7 @@ import questionMessageRepositorie from '../repositories/questionMessage.reposito
 const store = async (user, question, { comment }) => {
   if (!comment) throw new Error('Required Fields <comment>.');
 
-  const response = await questionMessageRepositorie.store(
-    question,
-    user,
-    comment,
-  );
+  const response = await questionMessageRepositorie.store(question, user, comment);
 
   if (!response) throw new Error('Error when creating comment.');
   return response;

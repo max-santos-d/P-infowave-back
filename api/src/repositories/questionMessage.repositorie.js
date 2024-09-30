@@ -13,20 +13,15 @@ const store = (question, user, comment) =>
         },
       },
     },
-    { new: true },
+    { new: true }
   );
 
 const index = (question) => Question.findById({ _id: question });
 
-const show = (question, comment) =>
-  Question.find({ _id: question, 'comments._id': { $in: [comment] } });
+const show = (question, comment) => Question.find({ _id: question, 'comments._id': { $in: [comment] } });
 
 const deleted = (question, comment) =>
-  Question.findOneAndUpdate(
-    { _id: question },
-    { $pull: { comments: { _id: comment } } },
-    { new: true },
-  );
+  Question.findOneAndUpdate({ _id: question }, { $pull: { comments: { _id: comment } } }, { new: true });
 
 export default {
   store,

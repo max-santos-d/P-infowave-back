@@ -25,7 +25,7 @@ const QuestionSchema = new mongoose.Schema(
       createdAt: 'created_at',
       updatedAt: 'updated_at',
     },
-  },
+  }
 );
 
 const Question = mongoose.model('Question', QuestionSchema);

@@ -40,8 +40,7 @@ const index = async () => {
 const update = async (id, body) => {
   const { title, text, banner } = body;
 
-  if (!title && !text && !banner)
-    throw new Error('At least one field is requeired.');
+  if (!title && !text && !banner) throw new Error('At least one field is requeired.');
 
   const response = await postRepositorie.update(id, { title, text, banner });
 

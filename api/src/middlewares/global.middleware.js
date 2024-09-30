@@ -53,8 +53,7 @@ export const questionIdValidation = async (req, res, next) => {
   try {
     idValidation(req.params.id);
     const question = await questionRepositorie.show(req.params.id);
-    if (!question)
-      return res.status(200).json({ response: 'Question not found.' });
+    if (!question) return res.status(200).json({ response: 'Question not found.' });
     req.questionParams = {
       _id: question._id,
       title: question.title,
@@ -83,8 +82,7 @@ export const organizerUserValidation = async (req, res, next) => {
     const { userType } = await userRepositorie.show(req.requestUserId);
     const filterUserType = userType.filter((i) => i.type === 'organization');
 
-    if (!filterUserType.length)
-      return res.status(401).json({ response: 'Invalid user type' });
+    if (!filterUserType.length) return res.status(401).json({ response: 'Invalid user type' });
 
     next();
   } catch (err) {
@@ -100,37 +98,26 @@ export const administratorUserValidation = async (req, res, next) => {
     const { param } = req.query;
 
     if (!param) throw new Error('<param> parameter not provided by query.');
-    if (typeof param !== 'string')
-      throw new Error('Only one parameter must be sent.');
+    if (typeof param !== 'string') throw new Error('Only one parameter must be sent.');
 
-    const userTypeRequest = await userRepositorie
-      .show(userRequestId)
-      .then((i) => i.userType);
+    const userTypeRequest = await userRepositorie.show(userRequestId).then((i) => i.userType);
 
     if (!userTypeRequest.filter((el) => el.type === 'administration').length)
       return res.status(401).json({
-        messageError:
-          'You do not have the necessary authentication to make the request',
+        messageError: 'You do not have the necessary authentication to make the request',
       });
 
     const userToUpdate = (await userRepositorie.show(userToUpdateId)).userType;
 
-    if (!userToUpdate.filter((el) => el.type === 'administration').length)
-      return next();
+    if (!userToUpdate.filter((el) => el.type === 'administration').length) return next();
     else {
-      const [dateUserRequest] = userTypeRequest.filter(
-        (i) => i.type === 'administration',
-      );
-      const [dateUsertoUpdate] = userToUpdate.filter(
-        (i) => i.type === 'administration',
-      );
+      const [dateUserRequest] = userTypeRequest.filter((i) => i.type === 'administration');
+      const [dateUsertoUpdate] = userToUpdate.filter((i) => i.type === 'administration');
 
-      if (dateUserRequest.created_at <= dateUsertoUpdate.created_at)
-        return next();
+      if (dateUserRequest.created_at <= dateUsertoUpdate.created_at) return next();
     }
     return res.status(500).json({
-      responseError:
-        'You do not have the necessary authentication to make the request.',
+      responseError: 'You do not have the necessary authentication to make the request.',
     });
   } catch (err) {
     console.log(err);

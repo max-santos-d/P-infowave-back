@@ -12,10 +12,7 @@ export const index = async (req, res) => {
 
 export const update = async (req, res) => {
   try {
-    const response = await questionLikeService.update(
-      req.questionParams._id,
-      req.requestUserId,
-    );
+    const response = await questionLikeService.update(req.questionParams._id, req.requestUserId);
     return res.status(200).json({ response });
   } catch (err) {
     console.log(err);

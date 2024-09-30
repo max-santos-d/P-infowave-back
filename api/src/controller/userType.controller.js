@@ -12,10 +12,7 @@ export const index = async (req, res) => {
 
 export const show = async (req, res) => {
   try {
-    const response = await userTypeService.show(
-      req.userParams._id,
-      req.query.param,
-    );
+    const response = await userTypeService.show(req.userParams._id, req.query.param);
     return res.status(200).json({ response });
   } catch (err) {
     console.log(err);
@@ -25,10 +22,7 @@ export const show = async (req, res) => {
 
 export const update = async (req, res) => {
   try {
-    const response = await userTypeService.update(
-      req.userParams._id,
-      req.query.param,
-    );
+    const response = await userTypeService.update(req.userParams._id, req.query.param);
     return res.status(200).json({ response });
   } catch (err) {
     console.log(err);
@@ -38,10 +32,7 @@ export const update = async (req, res) => {
 
 export const deleted = async (req, res) => {
   try {
-    const response = await userTypeService.deleted(
-      req.userParams._id,
-      req.query.param,
-    );
+    const response = await userTypeService.deleted(req.userParams._id, req.query.param);
     return res.status(200).json({ response });
   } catch (err) {
     console.log(err);

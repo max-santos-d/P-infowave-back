@@ -1,15 +1,7 @@
 import { Router } from 'express';
 
-import {
-  update,
-  index,
-  show,
-  deleted,
-} from '../controller/userType.controller.js';
-import {
-  administratorUserValidation,
-  userIdValidation,
-} from '../middlewares/global.middleware.js';
+import { update, index, show, deleted } from '../controller/userType.controller.js';
+import { administratorUserValidation, userIdValidation } from '../middlewares/global.middleware.js';
 import { authChekerMiddleware } from '../middlewares/auth.middleware.js';
 
 const routes = Router();

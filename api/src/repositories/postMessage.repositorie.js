@@ -13,20 +13,15 @@ const store = (post, user, text) =>
         },
       },
     },
-    { new: true },
+    { new: true }
   );
 
 const index = (post) => Post.findById({ _id: post });
 
-const show = (post, comment) =>
-  Post.find({ _id: post, 'comments._id': { $in: [comment] } });
+const show = (post, comment) => Post.find({ _id: post, 'comments._id': { $in: [comment] } });
 
 const deleted = (post, comment) =>
-  Post.findOneAndUpdate(
-    { _id: post },
-    { $pull: { comments: { _id: comment } } },
-    { new: true },
-  );
+  Post.findOneAndUpdate({ _id: post }, { $pull: { comments: { _id: comment } } }, { new: true });
 
 export default {
   store,

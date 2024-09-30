@@ -2,11 +2,7 @@ import questionMessageService from '../services/questionMessage.service.js';
 
 export const store = async (req, res) => {
   try {
-    const response = await questionMessageService.store(
-      req.requestUserId,
-      req.questionParams._id,
-      req.body,
-    );
+    const response = await questionMessageService.store(req.requestUserId, req.questionParams._id, req.body);
     return res.status(200).json({ response });
   } catch (err) {
     console.log(err);
@@ -26,10 +22,7 @@ export const index = async (req, res) => {
 
 export const deleted = async (req, res) => {
   try {
-    const response = await questionMessageService.deleted(
-      req.questionParams._id,
-      req.query,
-    );
+    const response = await questionMessageService.deleted(req.questionParams._id, req.query);
     return res.status(200).json({ response });
   } catch (err) {
     console.log(err);

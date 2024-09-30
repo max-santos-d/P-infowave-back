@@ -1,7 +1,6 @@
 import User from '../models/User.js';
 
-const store = (name, username, email, password, avatar) =>
-  User.create({ name, username, email, password, avatar });
+const store = (name, username, email, password, avatar) => User.create({ name, username, email, password, avatar });
 
 const index = () => User.find();
 
@@ -10,11 +9,7 @@ const show = (id) => User.findById({ _id: id });
 const showPassword = (id) => User.findById({ _id: id }).select('+password');
 
 const updated = (id, name, username, email, password, avatar) =>
-  User.findByIdAndUpdate(
-    { _id: id },
-    { name, username, email, password, avatar },
-    { new: true },
-  );
+  User.findByIdAndUpdate({ _id: id }, { name, username, email, password, avatar }, { new: true });
 
 const deleted = (id) => User.findByIdAndDelete({ _id: id });
 
@@ -24,26 +19,18 @@ const indexType = (top) => User.find({ 'userType.type': { $in: [top] } });
 const promotionOrg = (id) =>
   User.findOneAndUpdate(
     { _id: id, 'userType.type': { $nin: ['organization'] } },
-    { $push: { userType: { type: 'organization', created_at: new Date() } } },
+    { $push: { userType: { type: 'organization', created_at: new Date() } } }
   );
 
 const promotionAdm = (id) =>
   User.findOneAndUpdate(
     { _id: id, 'userType.type': { $nin: ['administration'] } },
-    { $push: { userType: { type: 'administration', created_at: new Date() } } },
+    { $push: { userType: { type: 'administration', created_at: new Date() } } }
   );
 
-const downgradeOrg = (id) =>
-  User.findOneAndUpdate(
-    { _id: id },
-    { $pull: { userType: { type: 'organization' } } },
-  );
+const downgradeOrg = (id) => User.findOneAndUpdate({ _id: id }, { $pull: { userType: { type: 'organization' } } });
 
-const downgradeAdm = (id) =>
-  User.findOneAndUpdate(
-    { _id: id },
-    { $pull: { userType: { type: 'administration' } } },
-  );
+const downgradeAdm = (id) => User.findOneAndUpdate({ _id: id }, { $pull: { userType: { type: 'administration' } } });
 
 export default {
   store,
