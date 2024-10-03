@@ -22,7 +22,7 @@ export const index = async (_, res) => {
 
 export const show = async (req, res) => {
   try {
-    return res.status(200).json({ reponse: req.postParams });
+    return res.status(200).json({ response: req.postParams });
   } catch (err) {
     console.log(err);
     return res.status(500).json({ responseError: err.message });
