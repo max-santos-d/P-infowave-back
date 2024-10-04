@@ -2,7 +2,7 @@ import postMessageService from '../services/postMessage.service.js';
 
 export const store = async (req, res) => {
   try {
-    const response = await postMessageService.store(req.query, req.params.id);
+    const response = await postMessageService.store(req.body, req.requestUserId, req.params.id);
     return res.status(200).json({ response });
   } catch (err) {
     console.log(err);

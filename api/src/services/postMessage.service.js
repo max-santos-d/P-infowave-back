@@ -1,7 +1,9 @@
 import postMessageRepositorie from '../repositories/postMessage.repositorie.js';
 
-const store = async ({ user, text }, post) => {
-  const response = await postMessageRepositorie.store(post, user, text);
+const store = async ({ comment }, user, post) => {
+  if (!comment) throw new Error('Required text field.');
+  const response = await postMessageRepositorie.store(post, user, comment);
+  if (!response) throw new Error('Error when creating comment.');
   return response;
 };
 
