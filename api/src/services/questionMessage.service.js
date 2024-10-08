@@ -1,10 +1,14 @@
 import questionMessageRepositorie from '../repositories/questionMessage.repositorie.js';
+import userRepositorie from '../repositories/user.repositorie.js';
 
 const store = async (user, question, { comment }) => {
   if (!comment) throw new Error('Required Fields <comment>.');
 
-  const response = await questionMessageRepositorie.store(question, user, comment);
+  const showUser = await userRepositorie.show(user).then((user) => {
+    return { id: user.id, name: user.name, username: user.username, avatar: user.avatar };
+  });
 
+  const response = await questionMessageRepositorie.store(question, showUser, comment);
   if (!response) throw new Error('Error when creating comment.');
   return response;
 };

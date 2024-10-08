@@ -16,7 +16,7 @@ const store = (question, user, comment) =>
     { new: true }
   );
 
-const index = (question) => Question.findById({ _id: question });
+const index = (question) => Question.findById({ _id: question }).populate('user');
 
 const show = (question, comment) => Question.find({ _id: question, 'comments._id': { $in: [comment] } });
 
