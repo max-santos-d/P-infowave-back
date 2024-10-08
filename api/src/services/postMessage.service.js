@@ -1,14 +1,22 @@
 import postMessageRepositorie from '../repositories/postMessage.repositorie.js';
+import userRepositorie from '../repositories/user.repositorie.js';
 
 const store = async ({ comment }, user, post) => {
-  if (!comment) throw new Error('Required comment field.');
-  const response = await postMessageRepositorie.store(post, user, comment);
+  if (!comment) throw new Error('Required text field.');
+
+  const showUser = await userRepositorie.show(user).then((user) => {
+    return { id: user.id, name: user.name, username: user.username, avatar: user.avatar };
+  });
+
+  const response = await postMessageRepositorie.store(post, showUser, comment);
   if (!response) throw new Error('Error when creating comment.');
   return response;
 };
 
 const index = async (post) => {
-  return await postMessageRepositorie.index(post);
+  const response = await postMessageRepositorie.index(post);
+  if (!response) throw new Error('error when making request');
+  return response;
 };
 
 const deleted = async (post, { comment }) => {

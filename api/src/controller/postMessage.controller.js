@@ -13,7 +13,7 @@ export const store = async (req, res) => {
 export const index = async (req, res) => {
   try {
     const response = await postMessageService.index(req.params.id);
-    return res.status(200).json({ reponse: response.comments });
+    return res.status(200).json({ reponse: response });
   } catch (err) {
     console.log(err);
     return res.status(500).json({ responseError: err.message });
