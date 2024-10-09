@@ -18,7 +18,9 @@ const auth = async ({ email, password }) => {
     expiresIn: 60 * 60 * 24,
   });
 
-  return token;
+  console.log(user);
+
+  return [{ token, user }];
 };
 
 export default {
