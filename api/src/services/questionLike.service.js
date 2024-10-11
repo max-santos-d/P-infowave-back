@@ -6,12 +6,9 @@ const index = async (user) => {
 
 const update = async (question, user) => {
   const response = await questionLikeRepositorie.show(question, user);
-  if (response.length) {
-    await questionLikeRepositorie.remove(question, user);
-    return 'Like removed.';
-  }
-  await questionLikeRepositorie.add(question, user);
-  return 'Like added.';
+  console.log(response);
+  if (response.length) return await questionLikeRepositorie.remove(question, user);
+  return await questionLikeRepositorie.add(question, user);
 };
 
 export default {
