@@ -20,8 +20,8 @@ const index = async () => {
       username: question.user?.username,
       avatar: question.user?.avatar,
     },
-    likes: question.likes.length,
-    comments: question.comments.length,
+    likes: question.likes,
+    comments: question.comments,
     created_at: question.created_at,
     updated_at: question.updated_at,
   }));
