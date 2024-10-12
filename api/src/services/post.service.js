@@ -17,7 +17,12 @@ const store = async (user, body) => {
   return response;
 };
 
-const index = async () => {
+const index = async ({ searchText }) => {
+  if (searchText) {
+    const response = await postRepositorie.search(searchText);
+    console.log(response);
+  }
+
   const response = await postRepositorie.index();
   return response.map((post) => ({
     _id: post.id,
