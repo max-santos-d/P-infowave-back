@@ -12,7 +12,7 @@ export const store = async (req, res) => {
 
 export const index = async (req, res) => {
   try {
-    const response = await postServices.index(req.body);
+    const response = await postServices.index(req.query);
     return res.status(200).json({ response });
   } catch (err) {
     console.log(err);
