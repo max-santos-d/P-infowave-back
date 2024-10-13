@@ -10,9 +10,9 @@ export const store = async (req, res) => {
   }
 };
 
-export const index = async (_, res) => {
+export const index = async (req, res) => {
   try {
-    const response = await questionService.index();
+    const response = await questionService.index(req.query);
     return res.status(200).json({ response });
   } catch (err) {
     console.log(err);

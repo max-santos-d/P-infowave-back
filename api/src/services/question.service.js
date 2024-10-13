@@ -8,9 +8,28 @@ const store = async (user, { text }) => {
   return 'Successfully created.';
 };
 
-const index = async () => {
-  const response = await questionRepositorie.index();
+const index = async ({ searchText }) => {
+  if (searchText) {
+    const response = await questionRepositorie.search(searchText);
+    return response.map((post) => ({
+      _id: post.id,
+      banner: post.banner,
+      title: post.title,
+      text: post.text,
+      user: {
+        _id: post.user?._id,
+        name: post.user?.name,
+        username: post.user?.username,
+        avatar: post.user?.avatar,
+      },
+      likes: post.likes,
+      comments: post.comments,
+      created_at: post.created_at,
+      updated_at: post.updated_at,
+    }));
+  }
 
+  const response = await questionRepositorie.index();
   return response.map((question) => ({
     _id: question._id,
     text: question.text,
