@@ -6,7 +6,6 @@ const index = async (user) => {
 
 const update = async (question, user) => {
   const response = await questionLikeRepositorie.show(question, user);
-  console.log(response);
   if (response.length) return await questionLikeRepositorie.remove(question, user);
   return await questionLikeRepositorie.add(question, user);
 };

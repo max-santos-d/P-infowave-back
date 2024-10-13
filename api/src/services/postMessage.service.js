@@ -16,7 +16,7 @@ const store = async ({ comment }, user, post) => {
 const index = async (post) => {
   const response = await postMessageRepositorie.index(post);
   if (!response) throw new Error('error when making request');
-  return response;
+  return response.comments;
 };
 
 const deleted = async (post, { comment }) => {
