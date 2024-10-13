@@ -1,6 +1,6 @@
 import Question from '../models/Question.js';
 
-const index = (user) => Question.find({ 'likes.user': { $in: [user] } });
+const index = (user) => Question.find({ 'likes.user': { $in: [user] } }).populate('user');
 
 const show = (question, user) => Question.find({ _id: question, 'likes.user': { $in: [user] } });
 
