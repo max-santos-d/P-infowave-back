@@ -2,7 +2,6 @@ import questionRepositorie from '../repositories/question.repositorie.js';
 
 const store = async (user, { text }) => {
   if (!text) throw new Error('Required Fields.');
-  console.log(text);
   const response = await questionRepositorie.store(text, user);
   if (!response) throw new Error('Error creating question.');
   return 'Successfully created.';

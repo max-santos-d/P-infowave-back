@@ -19,6 +19,7 @@ export const authChekerMiddleware = (req, res, next) => {
       const user = await userRepositorie.show(decoded.id);
 
       if (!user) return res.status(401).json({ responseError: 'Request user not found!' });
+      if (user.tokenVersion !== decoded.tokenVersion) return res.status(401).json({ responseError: 'Invalid Token.' });
 
       req.requestUserId = user._id;
       return next();

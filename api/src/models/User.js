@@ -41,6 +41,10 @@ const UserSchema = new Schema(
       type: Boolean,
       default: true,
     },
+    tokenVersion: {
+      type: Number,
+      default: 0,
+    },
   },
   {
     timestamps: {
@@ -50,8 +54,21 @@ const UserSchema = new Schema(
   }
 );
 
-UserSchema.pre('save', function (next) {
+UserSchema.pre('save', async function (next) {
+  if (!this.isModified('password')) {
+    return next();
+  }
   this.password = bcrypt.hashSync(this.password, 8);
+  next();
+});
+
+UserSchema.pre('findOneAndUpdate', async function (next) {
+  const update = this.getUpdate();
+
+  if (update.password) {
+    update.password = bcrypt.hashSync(update.password, 8);
+  }
+
   next();
 });
 

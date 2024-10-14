@@ -8,8 +8,19 @@ const show = (id) => User.findById({ _id: id });
 
 const showPassword = (id) => User.findById({ _id: id }).select('+password');
 
-const updated = (id, name, username, email, password, avatar) =>
-  User.findByIdAndUpdate({ _id: id }, { name, username, email, password, avatar }, { new: true });
+const updated = (props) =>
+  User.findByIdAndUpdate(
+    { _id: props.id },
+    {
+      name: props.name,
+      username: props.username,
+      email: props.email,
+      password: props.password,
+      avatar: props.avatar,
+      tokenVersion: props.tokenVersion,
+    },
+    { new: true }
+  );
 
 const deleted = (id) => User.findByIdAndDelete({ _id: id });
 

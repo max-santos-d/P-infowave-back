@@ -14,7 +14,7 @@ const auth = async ({ email, password }) => {
 
   if (!passwordValdation) throw new Error('User not found, check if the email and password were entered correctly.');
 
-  const token = jwt.sign({ id: user._id }, process.env.SECRET_JWT, {
+  const token = jwt.sign({ id: user._id, tokenVersion: user.tokenVersion }, process.env.SECRET_JWT, {
     expiresIn: 60 * 60 * 24,
   });
 
