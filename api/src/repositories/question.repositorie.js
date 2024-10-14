@@ -14,6 +14,8 @@ const search = (searchText) =>
     ],
   });
 
+const searchByUser = (userId) => Question.find({ user: userId }).populate('user');
+
 export default {
   store,
   index,
@@ -21,4 +23,5 @@ export default {
   update,
   deleted,
   search,
+  searchByUser,
 };

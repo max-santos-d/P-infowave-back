@@ -9,6 +9,7 @@ import questionRoutes from './question.routes.js';
 import questionLikeRoutes from './questionLike.routes.js';
 import questionMessageRoutes from './questionMessage.routes.js';
 import authRoutes from './auth.routes.js';
+import questionSearchByUser from './questionSearchByUser.routes.js';
 
 const router = Router();
 
@@ -28,5 +29,6 @@ router.use('/postMessage', postMessageRoutes);
 router.use('/question', questionRoutes);
 router.use('/questionLike', questionLikeRoutes);
 router.use('/questionMessage', questionMessageRoutes);
+router.use('/questionSearchByUser', questionSearchByUser);
 
 export default router;
