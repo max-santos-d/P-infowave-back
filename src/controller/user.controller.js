@@ -6,6 +6,11 @@ export const store = async (req, res) => {
     return res.status(200).json({ response: 'User created.' });
   } catch (err) {
     console.log(err);
+    if (err.code === 11000 && err.keyValue.username)
+      return res.status(500).json({ responseError: 'username already registered' });
+    if (err.code === 11000 && err.keyValue.login)
+      return res.status(500).json({ responseError: 'login already registered' });
+
     return res.status(500).json({ responseError: err.message });
   }
 };

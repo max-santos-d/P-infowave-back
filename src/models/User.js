@@ -1,47 +1,49 @@
 import mongoose, { Schema } from 'mongoose';
 import bcrypt from 'bcrypt';
-import validator from 'validator';
+
+import dataValidation from '../validators/dataValidation.js';
 
 const UserSchema = new Schema(
   {
     name: {
       type: String,
-      required: [true, 'name is a required field.'],
+      required: [true, 'is a required field.'],
+      minlength: [6, 'must be at least 6 characters long'],
+      maxlength: [50, 'must have a maximum of 50 characters'],
     },
     username: {
       type: String,
       required: [true, 'username is a required field.'],
-      unique: true,
       trim: true,
+      minlength: [3, 'must be at least 3 characters long'],
+      maxlength: [15, 'must have a maximum of 15 characters'],
+      unique: true,
     },
     avatar: {
       type: String,
       required: false,
       validate: {
-        validator: function (v) {
-          return validator.isURL(v); // Valida se a string é uma URL válida
-        },
-        message: (props) => `${props.value} is not a valid URL.`,
+        validator: dataValidation.urlValidate,
+        message: 'invalid field',
       },
     },
     login: {
       type: String,
-      required: [true, 'login is a required field.'],
+      required: [true, 'is a required field.'],
       unique: true,
       lowercase: true,
       trim: true,
+      immutable: true,
       validate: {
-        validator: function (v) {
-          return /\S+@\S+\.\S+/.test(v);
-        },
-        message: (props) => `${props.value} is not a valid field.`,
+        validator: dataValidation.cpfValidate,
+        message: 'the field must contain only numbers',
       },
     },
     password: {
       type: String,
       required: true,
-      minlength: [6, 'The password must be at least 6 characters long'],
-      maxlength: [50, 'The password must have a maximum of 50 characters'],
+      minlength: [6, 'must be at least 6 characters long'],
+      maxlength: [50, 'must have a maximum of 50 characters'],
       select: false,
     },
     userType: {
@@ -84,6 +86,10 @@ UserSchema.pre('findOneAndUpdate', async function (next) {
 
   if (update.password) {
     update.password = bcrypt.hashSync(update.password, 8);
+  }
+
+  if (update.cpf) {
+    return next(new Error('the field cannot be changed'));
   }
 
   next();
