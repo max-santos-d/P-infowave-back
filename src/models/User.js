@@ -13,11 +13,11 @@ const UserSchema = new Schema(
     },
     username: {
       type: String,
-      required: [true, 'username is a required field.'],
+      unique: true,
       trim: true,
+      required: [true, 'username is a required field.'],
       minlength: [3, 'must be at least 3 characters long'],
       maxlength: [15, 'must have a maximum of 15 characters'],
-      unique: true,
     },
     avatar: {
       type: String,
@@ -29,11 +29,11 @@ const UserSchema = new Schema(
     },
     login: {
       type: String,
-      required: [true, 'is a required field.'],
       unique: true,
       lowercase: true,
       trim: true,
-      immutable: true,
+      immutable: [true, 'it is not possible to edit this field'],
+      required: [true, 'is a required field.'],
       validate: {
         validator: dataValidation.cpfValidate,
         message: 'the field must contain only numbers',
@@ -42,9 +42,9 @@ const UserSchema = new Schema(
     password: {
       type: String,
       required: true,
+      select: false,
       minlength: [6, 'must be at least 6 characters long'],
       maxlength: [50, 'must have a maximum of 50 characters'],
-      select: false,
     },
     userType: {
       type: Array,

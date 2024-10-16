@@ -1,6 +1,6 @@
 import User from '../models/User.js';
 
-const showUser = (email) => User.findOne({ email }).select('+password');
+const showUser = (login) => User.findOne({ login }).select('+password');
 
 export default {
   showUser,

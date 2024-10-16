@@ -2,8 +2,8 @@ import userService from '../services/user.service.js';
 
 export const store = async (req, res) => {
   try {
-    await userService.store(req.body);
-    return res.status(200).json({ response: 'User created.' });
+    const response = await userService.store(req.body);
+    return res.status(200).json({ response: 'user created.', login: response });
   } catch (err) {
     console.log(err);
     if (err.code === 11000 && err.keyValue.username)
@@ -46,8 +46,8 @@ export const update = async (req, res) => {
 
 export const deleted = async (req, res) => {
   try {
-    const response = await userService.deleted(req.requestUserId, req.query);
-    return res.status(200).json({ response: 'User deleted.', user: response });
+    await userService.deleted(req.requestUserId, req.body);
+    return res.status(200).json({ response: 'user deleted' });
   } catch (err) {
     console.log(err);
     return res.status(500).json({ responseError: err.message });

@@ -5,12 +5,12 @@ import userRepositorie from '../repositories/user.repositorie.js';
 const store = async (body) => {
   const { name, username, login, password, avatar } = body;
 
-  if (!name || !username || !login || !password) throw new Error('Required Fields.');
+  if (!name || !username || !login || !password) throw new Error('required Fields.');
 
   const response = await userRepositorie.store(name, username, login, password, avatar);
 
-  if (!response) throw new Error('Error creating user.');
-  return response;
+  if (!response) throw new Error('error creating user.');
+  return response.login;
 };
 
 const index = async () => {
@@ -27,35 +27,33 @@ const index = async () => {
 const update = async (id, body) => {
   const { name, username, login, password, avatar } = body;
 
-  if (!name && !username && !avatar && !login && !password) throw new Error('At least one field is requeired.');
-
-  if (login || password) {
+  if (login) throw new Error('it is not possible to edit the login field');
+  if (!name && !username && !avatar && !login && !password) throw new Error('at least one field is requeired.');
+  if (password) {
     const user = await userRepositorie.showPassword(id);
-    let emailOrPasswordChanged = false;
+    let passwordChanged = false;
 
-    console.log(user);
-
-    if (login && user.login !== login) emailOrPasswordChanged = true;
+    if (login && user.login !== login) passwordChanged = true;
     if (password) {
       const passwordValdation = bcrypt.compareSync(password, user.password);
-      if (!passwordValdation) emailOrPasswordChanged = true;
+      if (!passwordValdation) passwordChanged = true;
     }
 
-    if (!emailOrPasswordChanged) throw new Error('Change cannot be made to the same value.');
+    if (!passwordChanged) throw new Error('change cannot be made to the same value.');
 
     const tokenVersion = user.tokenVersion + 1;
     const response = await userRepositorie.updated({ id, login, password, tokenVersion });
-    if (!response) throw new Error('Error when updating.');
+    if (!response) throw new Error('error when updating.');
     return response;
   }
 
   const response = await userRepositorie.updated({ id, name, username, avatar });
-  if (!response) throw new Error('Error when updating.');
+  if (!response) throw new Error('error when updating.');
   return response;
 };
 
 const deleted = async (id, { password }) => {
-  if (!password) throw new Error('Password required.');
+  if (!password) throw new Error('password required.');
 
   const user = await userRepositorie.showPassword(id);
   const passwordValdation = bcrypt.compareSync(password, user.password);
