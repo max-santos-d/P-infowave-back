@@ -1,3 +1,5 @@
 echo 'Check for listing errors and run test before commiting...'
-npm run fix || echo 'Linting erros or test failed. Please fix them before commiting.' && exit 1
+
+npm run fix || (echo 'Linting erros or test failed. Please fix them before commiting.' && exit 1)
+
 echo 'Done'
