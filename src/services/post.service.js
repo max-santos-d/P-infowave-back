@@ -3,7 +3,7 @@ import postRepositorie from '../repositories/post.repositorie.js';
 const store = async (user, body) => {
   const { title = '', text = '', banner = '' } = body;
 
-  if (!title || !text || !banner) throw new Error('Required Fields.');
+  if (!title || !text) throw new Error('Required Fields.');
 
   const response = await postRepositorie.store({
     title,

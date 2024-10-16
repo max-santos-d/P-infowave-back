@@ -3,11 +3,11 @@ import bcrypt from 'bcrypt';
 import userRepositorie from '../repositories/user.repositorie.js';
 
 const store = async (body) => {
-  const { name, username, email, password, avatar } = body;
+  const { name, username, login, password, avatar } = body;
 
-  if (!name || !username || !avatar || !email || !password) throw new Error('Required Fields.');
+  if (!name || !username || !login || !password) throw new Error('Required Fields.');
 
-  const response = await userRepositorie.store(name, username, email, password, avatar);
+  const response = await userRepositorie.store(name, username, login, password, avatar);
 
   if (!response) throw new Error('Error creating user.');
   return response;

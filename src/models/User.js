@@ -1,30 +1,47 @@
 import mongoose, { Schema } from 'mongoose';
 import bcrypt from 'bcrypt';
+import validator from 'validator';
 
 const UserSchema = new Schema(
   {
     name: {
       type: String,
-      required: true,
+      required: [true, 'name is a required field.'],
     },
     username: {
       type: String,
-      required: true,
+      required: [true, 'username is a required field.'],
       unique: true,
+      trim: true,
     },
     avatar: {
       type: String,
-      required: true,
+      required: false,
+      validate: {
+        validator: function (v) {
+          return validator.isURL(v); // Valida se a string é uma URL válida
+        },
+        message: (props) => `${props.value} is not a valid URL.`,
+      },
     },
-    email: {
+    login: {
       type: String,
-      required: true,
+      required: [true, 'login is a required field.'],
       unique: true,
       lowercase: true,
+      trim: true,
+      validate: {
+        validator: function (v) {
+          return /\S+@\S+\.\S+/.test(v);
+        },
+        message: (props) => `${props.value} is not a valid field.`,
+      },
     },
     password: {
       type: String,
       required: true,
+      minlength: [6, 'The password must be at least 6 characters long'],
+      maxlength: [50, 'The password must have a maximum of 50 characters'],
       select: false,
     },
     userType: {
