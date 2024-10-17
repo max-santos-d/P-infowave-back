@@ -4,11 +4,11 @@ const PostSchema = new mongoose.Schema(
   {
     title: {
       type: String,
-      required: true,
+      required: [true, 'is a required field.'],
     },
     text: {
       type: String,
-      required: true,
+      required: [true, 'is a required field.'],
     },
     banner: {
       type: String,
@@ -17,15 +17,15 @@ const PostSchema = new mongoose.Schema(
     user: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User',
-      required: true,
+      required: [true, 'is a required field.'],
     },
     likes: {
       type: Array,
-      required: true,
+      required: [true, 'is a required field.'],
     },
     comments: {
       type: Array,
-      required: true,
+      required: [true, 'is a required field.'],
     },
   },
   {

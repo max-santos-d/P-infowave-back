@@ -25,10 +25,7 @@ const index = async (param) => {
   }));
 };
 
-const show = async (id, param) => {
-  if (!param) throw new Error("No 'param' parameter informed.");
-  if (typeof param !== 'string') throw new Error('Only one parameter must be sent.');
-
+const show = async (id) => {
   const user = await userRepositorie.show(id);
 
   if (!user) throw new Error('User not found.');

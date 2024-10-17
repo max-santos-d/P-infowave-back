@@ -12,7 +12,7 @@ export const index = async (req, res) => {
 
 export const show = async (req, res) => {
   try {
-    const response = await userTypeService.show(req.userParams._id, req.query.param);
+    const response = await userTypeService.show(req.userParams._id);
     return res.status(200).json({ response });
   } catch (err) {
     console.log(err);

@@ -10,8 +10,8 @@ routes.get('/', index);
 routes.get('/:id', postIdValidation, show);
 
 routes.use(authChekerMiddleware);
-routes.use(organizerUserValidation);
 routes.post('/', store);
+routes.use(organizerUserValidation);
 routes.patch('/:id', postIdValidation, update);
 routes.delete('/:id', postIdValidation, deleted);
 
