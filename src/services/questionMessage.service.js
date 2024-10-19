@@ -1,32 +1,36 @@
 import questionMessageRepositorie from '../repositories/questionMessage.repositorie.js';
-import userRepositorie from '../repositories/user.repositorie.js';
 
-const store = async (user, question, { comment }) => {
-  if (!comment) throw new Error('Required Fields <comment>.');
+const store = async ({ comment }, user, post) => {
+  if (!comment) throw new Error('Required text field.');
 
-  const showUser = await userRepositorie.show(user).then((user) => {
-    return { id: user.id, name: user.name, username: user.username, avatar: user.avatar };
-  });
-
-  const response = await questionMessageRepositorie.store(question, showUser, comment);
+  const response = await questionMessageRepositorie.store(post, user, comment);
   if (!response) throw new Error('Error when creating comment.');
   return response;
 };
 
 const index = async (question) => {
-  return await questionMessageRepositorie.index(question);
+  const response = await questionMessageRepositorie.index(question);
+  if (!response) throw new Error('error when making request');
+  return response.comments;
 };
 
-const deleted = async (question, { comment }) => {
-  if (!comment) throw new Error('Comment id required.');
-  const findQuestion = await questionMessageRepositorie.show(question, comment);
-  if (!findQuestion.length) return 'Comment not found.';
-  const response = await questionMessageRepositorie.deleted(question, comment);
-  if (response) return 'Comment deleted.';
+const update = async ({ comment }, { commentId }, userId, questionId) => {
+  console.log('ok');
+  if (!comment) throw new Error('Required text field.');
+  if (!commentId) throw new Error('Comment id required.');
+  const response = await questionMessageRepositorie.update(comment, commentId, userId, questionId);
+  return response;
+};
+
+const deleted = async (questionId, { commentId }, userId) => {
+  if (!commentId) throw new Error('Comment id required.');
+  const response = questionMessageRepositorie.deleted(questionId, commentId, userId);
+  return response;
 };
 
 export default {
   store,
   index,
+  update,
   deleted,
 };

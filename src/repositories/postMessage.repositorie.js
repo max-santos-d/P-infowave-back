@@ -14,9 +14,6 @@ const update = (comment, commentId, user, post) =>
     { new: true }
   );
 
-/* const deleted = (post, commentId) =>
-  Post.findOneAndUpdate({ _id: post }, { $pull: { comments: { _id: commentId } } }, { new: true }); */
-
 const deleted = (postId, commentId, userId) =>
   Post.findOneAndUpdate(
     { _id: postId, 'comments.user': { $in: userId } },
