@@ -2,6 +2,7 @@ import mongoose, { Schema } from 'mongoose';
 import bcrypt from 'bcrypt';
 
 import dataValidation from '../validators/dataValidation.js';
+import reportSchema from '../utils/repostSchema.js';
 
 const UserSchema = new Schema(
   {
@@ -64,6 +65,7 @@ const UserSchema = new Schema(
       type: Number,
       default: 0,
     },
+    report: [reportSchema],
   },
   {
     timestamps: {

@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import reportSchema from '../utils/repostSchema.js';
 
 const PostSchema = new mongoose.Schema(
   {
@@ -27,6 +28,7 @@ const PostSchema = new mongoose.Schema(
       type: Array,
       required: [true, 'is a required field.'],
     },
+    report: [reportSchema],
   },
   {
     timestamps: {

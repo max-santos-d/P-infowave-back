@@ -1,5 +1,7 @@
 import mongoose from 'mongoose';
 
+import reportSchema from '../utils/repostSchema.js';
+
 const QuestionSchema = new mongoose.Schema(
   {
     text: {
@@ -19,6 +21,7 @@ const QuestionSchema = new mongoose.Schema(
       type: Array,
       required: true,
     },
+    report: [reportSchema],
   },
   {
     timestamps: {
