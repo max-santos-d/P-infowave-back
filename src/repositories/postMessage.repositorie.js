@@ -1,31 +1,33 @@
 import Post from '../models/Post.js';
 
 const store = (post, user, text) =>
-  Post.findOneAndUpdate(
-    { _id: post },
-    {
-      $push: {
-        comments: {
-          _id: crypto.randomUUID(),
-          user,
-          text,
-          createdAt: new Date(),
-        },
-      },
-    },
-    { new: true }
-  );
+  Post.findByIdAndUpdate(post, { $push: { comments: { user: user, text: text } } }, { new: true });
 
 const index = (post) => Post.findById({ _id: post }).populate('user');
 
 const show = (post, comment) => Post.find({ _id: post, 'comments._id': { $in: [comment] } });
 
-const deleted = (post, comment) =>
-  Post.findOneAndUpdate({ _id: post }, { $pull: { comments: { _id: comment } } }, { new: true });
+const update = (comment, commentId, user, post) =>
+  Post.findOneAndUpdate(
+    { _id: post, 'comments._id': { $in: commentId }, 'comments.user': { $in: user } },
+    { $set: { 'comments.$.text': comment } },
+    { new: true }
+  );
+
+/* const deleted = (post, commentId) =>
+  Post.findOneAndUpdate({ _id: post }, { $pull: { comments: { _id: commentId } } }, { new: true }); */
+
+const deleted = (postId, commentId, userId) =>
+  Post.findOneAndUpdate(
+    { _id: postId, 'comments.user': { $in: userId } },
+    { $pull: { comments: { _id: commentId } } },
+    { new: true }
+  );
 
 export default {
   store,
   index,
   show,
+  update,
   deleted,
 };

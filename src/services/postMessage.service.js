@@ -1,14 +1,8 @@
 import postMessageRepositorie from '../repositories/postMessage.repositorie.js';
-import userRepositorie from '../repositories/user.repositorie.js';
 
 const store = async ({ comment }, user, post) => {
   if (!comment) throw new Error('Required text field.');
-
-  const showUser = await userRepositorie.show(user).then((user) => {
-    return { id: user.id, name: user.name, username: user.username, avatar: user.avatar };
-  });
-
-  const response = await postMessageRepositorie.store(post, showUser, comment);
+  const response = await postMessageRepositorie.store(post, user, comment);
   if (!response) throw new Error('Error when creating comment.');
   return response;
 };
@@ -19,17 +13,22 @@ const index = async (post) => {
   return response.comments;
 };
 
-const deleted = async (post, { comment }) => {
-  if (!comment) throw new Error('Comment id required.');
-  const findComment = await postMessageRepositorie.show(post, comment);
-  if (!findComment.length) return 'Comment not found.';
-  const response = postMessageRepositorie.deleted(post, comment);
-  if (!response) throw new Error('Error when deleting');
-  return 'Comment deleted.';
+const update = async ({ comment }, { commentId }, userId, postId) => {
+  if (!comment) throw new Error('Required text field.');
+  if (!commentId) throw new Error('Comment id required.');
+  const response = await postMessageRepositorie.update(comment, commentId, userId, postId);
+  return response;
+};
+
+const deleted = async (postId, { commentId }, userId) => {
+  if (!commentId) throw new Error('Comment id required.');
+  const response = postMessageRepositorie.deleted(postId, commentId, userId);
+  return response;
 };
 
 export default {
   store,
   index,
+  update,
   deleted,
 };

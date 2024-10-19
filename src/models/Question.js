@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 
 import reportSchema from '../utils/repostSchema.js';
+import CommentsSchema from '../utils/commentsSchema.js';
 
 const QuestionSchema = new mongoose.Schema(
   {
@@ -17,10 +18,7 @@ const QuestionSchema = new mongoose.Schema(
       type: Array,
       required: true,
     },
-    comments: {
-      type: Array,
-      required: true,
-    },
+    comments: [CommentsSchema],
     report: [reportSchema],
   },
   {

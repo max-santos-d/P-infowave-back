@@ -2,7 +2,7 @@ import postMessageService from '../services/postMessage.service.js';
 
 export const store = async (req, res) => {
   try {
-    const response = await postMessageService.store(req.body, req.requestUserId, req.params.id);
+    const response = await postMessageService.store(req.body, req.requestUserId, req.postParams._id);
     return res.status(200).json({ response });
   } catch (err) {
     console.log(err);
@@ -12,7 +12,17 @@ export const store = async (req, res) => {
 
 export const index = async (req, res) => {
   try {
-    const response = await postMessageService.index(req.params.id);
+    const response = await postMessageService.index(req.postParams._id);
+    return res.status(200).json({ reponse: response });
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({ responseError: err.message });
+  }
+};
+
+export const update = async (req, res) => {
+  try {
+    const response = await postMessageService.update(req.body, req.query, req.requestUserId, req.postParams._id);
     return res.status(200).json({ reponse: response });
   } catch (err) {
     console.log(err);
@@ -22,7 +32,7 @@ export const index = async (req, res) => {
 
 export const deleted = async (req, res) => {
   try {
-    const response = await postMessageService.deleted(req.params.id, req.query);
+    const response = await postMessageService.deleted(req.postParams._id, req.query, req.requestUserId);
     return res.status(200).json({ response });
   } catch (err) {
     console.log(err);
