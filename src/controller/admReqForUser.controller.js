@@ -1,8 +1,8 @@
 import admReqForUsersService from '../services/admReqForUser.service.js';
 
-export const indexUser = async (_, res) => {
+export const indexUser = async (req, res) => {
   try {
-    const response = await admReqForUsersService.indexUser();
+    const response = await admReqForUsersService.indexUser(req.query);
     return res.status(200).json({ response });
   } catch (err) {
     console.log(err);

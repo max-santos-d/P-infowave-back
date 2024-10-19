@@ -1,6 +1,10 @@
 import admReqForUsersRepositorie from '../repositories/admReqForUser.repositorie.js';
 
-const indexUser = async () => {
+const indexUser = async ({ report }) => {
+  if (report === 'true') {
+    const response = await admReqForUsersRepositorie.indexReport();
+    return response;
+  }
   const response = await admReqForUsersRepositorie.indexUser();
   return response;
 };

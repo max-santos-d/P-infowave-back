@@ -1,6 +1,11 @@
 import admReqForQuestionRepositorie from '../repositories/admReqForQuestion.repositorie.js';
 
-const indexQuestion = async () => {
+const indexQuestion = async ({ report }) => {
+  if (report === 'true') {
+    const response = await admReqForQuestionRepositorie.indexReport();
+    return response;
+  }
+
   const response = await admReqForQuestionRepositorie.indexQuestion();
   return response;
 };

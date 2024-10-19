@@ -1,8 +1,8 @@
 import admReqForPostRepositorie from '../services/admReqForPost.service.js';
 
-export const indexPost = async (_, res) => {
+export const indexPost = async (req, res) => {
   try {
-    const response = await admReqForPostRepositorie.indexPost();
+    const response = await admReqForPostRepositorie.indexPost(req.query);
     return res.status(200).json({ response });
   } catch (err) {
     console.log(err);

@@ -1,6 +1,10 @@
 import admReqForPostRepositorie from '../repositories/admReqForPost.repositorie.js';
 
-const indexPost = async () => {
+const indexPost = async ({ report }) => {
+  if (report === 'true') {
+    const response = await admReqForPostRepositorie.indexReport();
+    return response;
+  }
   const response = await admReqForPostRepositorie.indexPost();
   return response;
 };

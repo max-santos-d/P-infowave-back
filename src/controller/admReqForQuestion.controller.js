@@ -1,8 +1,8 @@
-import admReqForQuestionRepositorie from '../services/admReqForQuestion.service.js';
+import admReqForQuestionService from '../services/admReqForQuestion.service.js';
 
-export const indexQuestion = async (_, res) => {
+export const indexQuestion = async (req, res) => {
   try {
-    const response = await admReqForQuestionRepositorie.indexQuestion();
+    const response = await admReqForQuestionService.indexQuestion(req.query);
     return res.status(200).json({ response });
   } catch (err) {
     console.log(err);
@@ -12,7 +12,7 @@ export const indexQuestion = async (_, res) => {
 
 export const showQuestion = async (req, res) => {
   try {
-    const response = await admReqForQuestionRepositorie.showQuestion(req.params);
+    const response = await admReqForQuestionService.showQuestion(req.params);
     return res.status(200).json({ response });
   } catch (err) {
     console.log(err);
@@ -22,7 +22,7 @@ export const showQuestion = async (req, res) => {
 
 export const deleteQuestion = async (req, res) => {
   try {
-    const response = await admReqForQuestionRepositorie.deleteQuestion(req.params);
+    const response = await admReqForQuestionService.deleteQuestion(req.params);
     return res.status(200).json({ response });
   } catch (err) {
     console.log(err);
