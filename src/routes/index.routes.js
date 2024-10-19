@@ -12,6 +12,7 @@ import authRoutes from './auth.routes.js';
 import questionSearchByUserRoutes from './questionSearchByUser.routes.js';
 import admReqForUsersRoutes from './admReqForUser.routes.js';
 import admReqForPostRoutes from './admReqForPost.routes.js';
+import admReqForQuestionRoutes from './admReqForQuestion.routes.js';
 
 const router = Router();
 
@@ -36,5 +37,6 @@ router.use('/questionSearchByUser', questionSearchByUserRoutes);
 //adm request
 router.use('/admReqForUsers', admReqForUsersRoutes);
 router.use('/admReqForPost', admReqForPostRoutes);
+router.use('/admReqForQuestion', admReqForQuestionRoutes);
 
 export default router;
