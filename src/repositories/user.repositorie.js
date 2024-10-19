@@ -14,7 +14,6 @@ const updated = (props) =>
     {
       name: props.name,
       username: props.username,
-      email: props.email,
       password: props.password,
       avatar: props.avatar,
       tokenVersion: props.tokenVersion,

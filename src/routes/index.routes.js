@@ -9,7 +9,9 @@ import questionRoutes from './question.routes.js';
 import questionLikeRoutes from './questionLike.routes.js';
 import questionMessageRoutes from './questionMessage.routes.js';
 import authRoutes from './auth.routes.js';
-import questionSearchByUser from './questionSearchByUser.routes.js';
+import questionSearchByUserRoutes from './questionSearchByUser.routes.js';
+import admReqForUsersRoutes from './admReqForUsers.routes.js';
+import admReqForPostRoutes from './admReqForPost.routes.js';
 
 const router = Router();
 
@@ -29,6 +31,10 @@ router.use('/postMessage', postMessageRoutes);
 router.use('/question', questionRoutes);
 router.use('/questionLike', questionLikeRoutes);
 router.use('/questionMessage', questionMessageRoutes);
-router.use('/questionSearchByUser', questionSearchByUser);
+router.use('/questionSearchByUser', questionSearchByUserRoutes);
+
+//adm request
+router.use('/admReqForUsers', admReqForUsersRoutes);
+router.use('/admReqForPost', admReqForPostRoutes);
 
 export default router;

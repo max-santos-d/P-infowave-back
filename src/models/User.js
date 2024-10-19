@@ -13,7 +13,7 @@ const UserSchema = new Schema(
     },
     username: {
       type: String,
-      unique: true,
+      unique: [true, 'information already registered'],
       trim: true,
       required: [true, 'username is a required field.'],
       minlength: [3, 'must be at least 3 characters long'],
@@ -29,14 +29,14 @@ const UserSchema = new Schema(
     },
     login: {
       type: String,
-      unique: true,
+      unique: [true, 'information already registered'],
       lowercase: true,
       trim: true,
-      immutable: [true, 'it is not possible to edit this field'],
+      //immutable: [true, 'it is not possible to edit this field'],
       required: [true, 'is a required field.'],
       validate: {
         validator: dataValidation.cpfValidate,
-        message: 'the field must contain only numbers',
+        message: 'invalid field',
       },
     },
     password: {
@@ -88,8 +88,10 @@ UserSchema.pre('findOneAndUpdate', async function (next) {
     update.password = bcrypt.hashSync(update.password, 8);
   }
 
-  if (update.cpf) {
-    return next(new Error('the field cannot be changed'));
+  if (update.login) {
+    const verifyLogin = dataValidation.cpfValidate(update.login);
+
+    if (!verifyLogin) throw new Error('invalid field');
   }
 
   next();

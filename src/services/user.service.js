@@ -20,20 +20,18 @@ const index = async () => {
     name: user.name,
     username: user.username,
     avatar: user.avatar,
-    email: user.email,
+    login: user.login,
   }));
 };
 
 const update = async (id, body) => {
-  const { name, username, login, password, avatar } = body;
+  const { name, username, password, avatar } = body;
 
-  if (login) throw new Error('it is not possible to edit the login field');
-  if (!name && !username && !avatar && !login && !password) throw new Error('at least one field is requeired.');
+  if (!name && !username && !avatar && !password) throw new Error('at least one field is requeired.');
   if (password) {
     const user = await userRepositorie.showPassword(id);
     let passwordChanged = false;
 
-    if (login && user.login !== login) passwordChanged = true;
     if (password) {
       const passwordValdation = bcrypt.compareSync(password, user.password);
       if (!passwordValdation) passwordChanged = true;
@@ -42,7 +40,7 @@ const update = async (id, body) => {
     if (!passwordChanged) throw new Error('change cannot be made to the same value.');
 
     const tokenVersion = user.tokenVersion + 1;
-    const response = await userRepositorie.updated({ id, login, password, tokenVersion });
+    const response = await userRepositorie.updated({ id, password, tokenVersion });
     if (!response) throw new Error('error when updating.');
     return response;
   }
