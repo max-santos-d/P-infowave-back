@@ -10,7 +10,7 @@ import questionLikeRoutes from './questionLike.routes.js';
 import questionMessageRoutes from './questionMessage.routes.js';
 import authRoutes from './auth.routes.js';
 import questionSearchByUserRoutes from './questionSearchByUser.routes.js';
-import admReqForUsersRoutes from './admReqForUsers.routes.js';
+import admReqForUsersRoutes from './admReqForUser.routes.js';
 import admReqForPostRoutes from './admReqForPost.routes.js';
 
 const router = Router();

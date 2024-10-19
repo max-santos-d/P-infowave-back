@@ -1,8 +1,8 @@
-import admServices from '../services/admReqForUsers.service.js';
+import admReqForUsersService from '../services/admReqForUser.service.js';
 
 export const indexUser = async (_, res) => {
   try {
-    const response = await admServices.indexUser();
+    const response = await admReqForUsersService.indexUser();
     return res.status(200).json({ response });
   } catch (err) {
     console.log(err);
@@ -12,7 +12,7 @@ export const indexUser = async (_, res) => {
 
 export const showUser = async (req, res) => {
   try {
-    const response = await admServices.showUser(req.params);
+    const response = await admReqForUsersService.showUser(req.params);
     return res.status(200).json({ response });
   } catch (err) {
     console.log(err);
@@ -22,7 +22,7 @@ export const showUser = async (req, res) => {
 
 export const updateUser = async (req, res) => {
   try {
-    const response = await admServices.updateUser(req.params, req.body);
+    const response = await admReqForUsersService.updateUser(req.params, req.body);
     return res.status(200).json({ response });
   } catch (err) {
     console.log(err);
@@ -32,7 +32,7 @@ export const updateUser = async (req, res) => {
 
 export const deleteUser = async (req, res) => {
   try {
-    const response = await admServices.deleteUser(req.params);
+    const response = await admReqForUsersService.deleteUser(req.params);
     return res.status(200).json({ response });
   } catch (err) {
     console.log(err);

@@ -1,6 +1,6 @@
 import { Router } from 'express';
 
-import { deleteUser, indexUser, showUser, updateUser } from '../controller/admReqForUsers.controller.js';
+import { deleteUser, indexUser, showUser, updateUser } from '../controller/admReqForUser.controller.js';
 import { userIdValidation } from '../middlewares/global.middleware.js';
 
 const routes = Router();
