@@ -3,8 +3,6 @@ import postRepositorie from '../repositories/post.repositorie.js';
 const store = async (user, body) => {
   const { title = '', text = '', banner = '' } = body;
 
-  console.log(user);
-
   if (!title || !text) throw new Error('Required Fields.');
 
   const response = await postRepositorie.store({
@@ -22,17 +20,13 @@ const store = async (user, body) => {
 const index = async ({ searchText }) => {
   if (searchText) {
     const response = await postRepositorie.search(searchText);
+
     return response.map((post) => ({
       _id: post.id,
       banner: post.banner,
       title: post.title,
       text: post.text,
-      user: {
-        _id: post.user?._id,
-        name: post.user?.name,
-        username: post.user?.username,
-        avatar: post.user?.avatar,
-      },
+      user: post.user,
       likes: post.likes,
       comments: post.comments,
       created_at: post.created_at,
@@ -46,12 +40,7 @@ const index = async ({ searchText }) => {
     banner: post.banner,
     title: post.title,
     text: post.text,
-    user: {
-      _id: post.user?._id,
-      name: post.user?.name,
-      username: post.user?.username,
-      avatar: post.user?.avatar,
-    },
+    user: post.user,
     likes: post.likes,
     comments: post.comments,
     created_at: post.created_at,

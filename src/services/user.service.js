@@ -15,13 +15,7 @@ const store = async (body) => {
 
 const index = async () => {
   const response = await userRepositorie.index();
-  return response.map((user) => ({
-    id: user._id,
-    name: user.name,
-    username: user.username,
-    avatar: user.avatar,
-    login: user.login,
-  }));
+  return response;
 };
 
 const update = async (id, body) => {
