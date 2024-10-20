@@ -10,12 +10,12 @@ const store = async ({ comment }, user, post) => {
 
 const index = async (question) => {
   const response = await questionMessageRepositorie.index(question);
+  console.log(response.comments);
   if (!response) throw new Error('error when making request');
   return response.comments;
 };
 
 const update = async ({ comment }, { commentId }, userId, questionId) => {
-  console.log('ok');
   if (!comment) throw new Error('Required text field.');
   if (!commentId) throw new Error('Comment id required.');
   const response = await questionMessageRepositorie.update(comment, commentId, userId, questionId);

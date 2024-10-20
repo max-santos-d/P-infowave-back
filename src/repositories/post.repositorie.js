@@ -33,7 +33,16 @@ const search = (searchText) =>
       { title: { $regex: searchText, $options: 'i' } }, // 'i' para case insensitive
       { text: { $regex: searchText, $options: 'i' } },
     ],
-  });
+  })
+    .populate({
+      path: 'user',
+      select: 'username status',
+    })
+    .populate({
+      path: 'comments.user',
+      select: 'username status',
+    })
+    .exec();
 
 export default {
   store,

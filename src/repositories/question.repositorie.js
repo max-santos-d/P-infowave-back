@@ -29,7 +29,13 @@ const deleted = (id) => Question.findOneAndDelete({ _id: id }).exec();
 const search = (searchText) =>
   Question.find({
     $or: [{ title: { $regex: searchText, $options: 'i' } }, { text: { $regex: searchText, $options: 'i' } }],
-  }).exec();
+  })
+    .populate('user', 'username status')
+    .populate({
+      path: 'comments.user',
+      select: 'username status',
+    })
+    .exec();
 
 const searchByUser = (userId) =>
   Question.find({ user: userId })

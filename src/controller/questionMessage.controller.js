@@ -13,7 +13,7 @@ export const store = async (req, res) => {
 export const index = async (req, res) => {
   try {
     const response = await questionMessageService.index(req.questionParams._id);
-    return res.status(200).json({ response: response.comments });
+    return res.status(200).json({ response });
   } catch (err) {
     console.log(err);
     return res.status(500).json({ responseError: err.message });
@@ -22,7 +22,6 @@ export const index = async (req, res) => {
 
 export const update = async (req, res) => {
   try {
-    console.log('ok 1');
     const response = await questionMessageService.update(
       req.body,
       req.query,

@@ -10,7 +10,6 @@ const store = async (user, { text }) => {
 const index = async ({ searchText }) => {
   if (searchText) {
     const response = await questionRepositorie.search(searchText);
-    console.log(response);
     return response.map((post) => ({
       _id: post.id,
       banner: post.banner,
