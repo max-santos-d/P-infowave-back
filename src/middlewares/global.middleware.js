@@ -5,14 +5,14 @@ import postRepositorie from '../repositories/post.repositorie.js';
 import questionRepositorie from '../repositories/question.repositorie.js';
 
 const idValidation = (id) => {
-  if (!mongoose.Types.ObjectId.isValid(id)) throw new Error('Invalid ID.');
+  return !mongoose.Types.ObjectId.isValid(id);
 };
 
 export const userIdValidation = async (req, res, next) => {
   try {
-    idValidation(req.params.id);
+    if (idValidation(req.params.id)) return res.status(400).json({ responseError: 'inválid ID' });
     const user = await userRepositorie.show(req.params.id);
-    if (!user) return res.status(200).json({ response: 'User not found.' });
+    if (!user) return res.status(404).json({ responseError: 'user not found.' });
     req.userParams = user;
     next();
   } catch (err) {
@@ -23,9 +23,9 @@ export const userIdValidation = async (req, res, next) => {
 
 export const postIdValidation = async (req, res, next) => {
   try {
-    idValidation(req.params.id);
+    if (idValidation(req.params.id)) return res.status(400).json({ responseError: 'inválid ID' });
     const post = await postRepositorie.show(req.params.id);
-    if (!post) return res.status(200).json({ response: 'Post not found.' });
+    if (!post) return res.status(404).json({ response: 'post not found.' });
     req.postParams = {
       _id: post._id,
       title: post.title,
@@ -51,9 +51,9 @@ export const postIdValidation = async (req, res, next) => {
 
 export const questionIdValidation = async (req, res, next) => {
   try {
-    idValidation(req.params.id);
+    if (idValidation(req.params.id)) return res.status(400).json({ responseError: 'inválid ID' });
     const question = await questionRepositorie.show(req.params.id);
-    if (!question) return res.status(200).json({ response: 'Question not found.' });
+    if (!question) return res.status(404).json({ response: 'question not found.' });
     req.questionParams = {
       _id: question._id,
       title: question.title,
@@ -82,7 +82,8 @@ export const organizerUserValidation = async (req, res, next) => {
     const { userType } = await userRepositorie.show(req.requestUserId);
     const filterUserType = userType.filter((i) => i.type === 'organization');
 
-    if (!filterUserType.length) return res.status(401).json({ response: 'Invalid user type' });
+    if (!filterUserType.length)
+      return res.status(403).json({ response: 'you do not have permission too acess this request' });
 
     next();
   } catch (err) {
@@ -103,8 +104,8 @@ export const administratorUserValidation = async (req, res, next) => {
     const userTypeRequest = await userRepositorie.show(userRequestId).then((i) => i.userType);
 
     if (!userTypeRequest.filter((el) => el.type === 'administration').length)
-      return res.status(401).json({
-        messageError: 'You do not have the necessary authentication to make the request',
+      return res.status(403).json({
+        messageError: 'you do not have permission too acess this request',
       });
 
     const userToUpdate = (await userRepositorie.show(userToUpdateId)).userType;
@@ -116,8 +117,8 @@ export const administratorUserValidation = async (req, res, next) => {
 
       if (dateUserRequest.created_at <= dateUsertoUpdate.created_at) return next();
     }
-    return res.status(500).json({
-      responseError: 'You do not have the necessary authentication to make the request.',
+    return res.status(403).json({
+      responseError: 'you do not have permission too acess this request',
     });
   } catch (err) {
     console.log(err);
