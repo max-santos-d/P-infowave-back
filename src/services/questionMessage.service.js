@@ -1,4 +1,5 @@
 import questionMessageRepositorie from '../repositories/questionMessage.repositorie.js';
+import mongoDbIdValidate from '../validators/mongoDbIdValidate.js';
 
 const store = async ({ comment }, user, post) => {
   if (!comment) throw new Error('Required text field.');
@@ -23,9 +24,15 @@ const update = async ({ comment }, { commentId }, userId, questionId) => {
 };
 
 const deleted = async (questionId, { commentId }, userId) => {
-  if (!commentId) throw new Error('Comment id required.');
-  const response = questionMessageRepositorie.deleted(questionId, commentId, userId);
-  return response;
+  if (!commentId) throw new Error('comment id required');
+  if (!mongoDbIdValidate(commentId)) throw new Error('invalid id comment');
+  const findComment = await questionMessageRepositorie.show(questionId, commentId);
+  if (!findComment) throw new Error('comment not fount');
+  await questionMessageRepositorie.deleted(questionId, commentId, userId);
+  if (!findComment) throw new Error('comment not fount');
+  const findCommentDeleted = await questionMessageRepositorie.show(questionId, commentId);
+  if (findCommentDeleted) throw new Error('error wen deleting comment');
+  return 'comment deleted';
 };
 
 export default {

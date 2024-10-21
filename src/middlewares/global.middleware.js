@@ -1,16 +1,11 @@
-import mongoose from 'mongoose';
-
 import userRepositorie from '../repositories/user.repositorie.js';
 import postRepositorie from '../repositories/post.repositorie.js';
 import questionRepositorie from '../repositories/question.repositorie.js';
-
-const idValidation = (id) => {
-  return !mongoose.Types.ObjectId.isValid(id);
-};
+import mongoDbIdValidate from '../validators/mongoDbIdValidate.js';
 
 export const userIdValidation = async (req, res, next) => {
   try {
-    if (idValidation(req.params.id)) return res.status(400).json({ responseError: 'inválid ID' });
+    if (!mongoDbIdValidate(req.params.id)) return res.status(400).json({ responseError: 'inválid ID' });
     const user = await userRepositorie.show(req.params.id);
     if (!user) return res.status(404).json({ responseError: 'user not found.' });
     req.userParams = user;
@@ -23,7 +18,7 @@ export const userIdValidation = async (req, res, next) => {
 
 export const postIdValidation = async (req, res, next) => {
   try {
-    if (idValidation(req.params.id)) return res.status(400).json({ responseError: 'inválid ID' });
+    if (!mongoDbIdValidate(req.params.id)) return res.status(400).json({ responseError: 'inválid ID' });
     const post = await postRepositorie.show(req.params.id);
     if (!post) return res.status(404).json({ response: 'post not found.' });
     req.postParams = {
@@ -51,7 +46,7 @@ export const postIdValidation = async (req, res, next) => {
 
 export const questionIdValidation = async (req, res, next) => {
   try {
-    if (idValidation(req.params.id)) return res.status(400).json({ responseError: 'inválid ID' });
+    if (!mongoDbIdValidate(req.params.id)) return res.status(400).json({ responseError: 'inválid ID' });
     const question = await questionRepositorie.show(req.params.id);
     if (!question) return res.status(404).json({ response: 'question not found.' });
     req.questionParams = {

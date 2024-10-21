@@ -1,7 +1,13 @@
 import Post from '../models/Post.js';
 
 const store = (post, user, text) =>
-  Post.findByIdAndUpdate(post, { $push: { comments: { user: user, text: text } } }, { new: true }).exec();
+  Post.findByIdAndUpdate(post, { $push: { comments: { user: user, text: text } } }, { new: true })
+    .populate('user', 'username status')
+    .populate({
+      path: 'comments.user',
+      select: 'username status',
+    })
+    .exec();
 
 const index = (post) =>
   Post.findById({ _id: post })
@@ -13,27 +19,34 @@ const index = (post) =>
     .sort({ updated_at: -1 })
     .exec();
 
-const show = (post, comment) =>
-  Post.find({ _id: post, 'comments._id': { $in: [comment] } })
+const show = (postId, commentId) =>
+  Post.findOne(
+    { _id: postId, 'comments._id': commentId }, // Busca pelo post e pelo comentário
+    { 'comments.$': 1 } // Retorna apenas o comentário correspondente
+  )
+    .populate('comments.user', 'username status') // Popula o usuário do comentário, se necessário
+    .exec();
+
+const update = (comment, commentId, user, post) =>
+  Post.findOneAndUpdate(
+    { _id: post },
+    { $set: { 'comments.$[comment].text': comment } },
+    {
+      new: true,
+      arrayFilters: [{ 'comment._id': commentId, 'comment.user': user }], // Adiciona o filtro para o array
+    }
+  )
     .populate('user', 'username status')
     .populate({
       path: 'comments.user',
       select: 'username status',
     })
-    .sort({ updated_at: -1 })
     .exec();
-
-const update = (comment, commentId, user, post) =>
-  Post.findOneAndUpdate(
-    { _id: post, 'comments._id': { $in: commentId }, 'comments.user': { $in: user } },
-    { $set: { 'comments.$.text': comment } },
-    { new: true }
-  ).exec();
 
 const deleted = (postId, commentId, userId) =>
   Post.findOneAndUpdate(
-    { _id: postId, 'comments.user': { $in: userId } },
-    { $pull: { comments: { _id: commentId } } },
+    { _id: postId, 'comments.user': userId },
+    { $pull: { comments: { _id: commentId, user: userId } } },
     { new: true }
   ).exec();
 
