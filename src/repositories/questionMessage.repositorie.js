@@ -1,7 +1,13 @@
 import Question from '../models/Question.js';
 
 const store = (questionId, userId, text) =>
-  Question.findByIdAndUpdate(questionId, { $push: { comments: { user: userId, text: text } } }, { new: true });
+  Question.findByIdAndUpdate(questionId, { $push: { comments: { user: userId, text: text } } }, { new: true })
+    .populate('user', 'username status')
+    .populate({
+      path: 'comments.user',
+      select: 'username status',
+    })
+    .exec();
 
 const index = (question) =>
   Question.findById({ _id: question })

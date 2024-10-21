@@ -3,7 +3,6 @@ import mongoDbIdValidate from '../validators/mongoDbIdValidate.js';
 
 const store = async ({ comment }, user, post) => {
   if (!comment) throw new Error('Required text field.');
-
   const response = await questionMessageRepositorie.store(post, user, comment);
   if (!response) throw new Error('Error when creating comment.');
   return response;
