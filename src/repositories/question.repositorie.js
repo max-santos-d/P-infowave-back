@@ -4,20 +4,20 @@ const store = (text, user) => Question.create({ text, user });
 
 const index = () =>
   Question.find()
-    .populate('user', 'username status')
+    .populate('user', 'username avatar status')
     .populate({
       path: 'comments.user',
-      select: 'username status',
+      select: 'username avatar status',
     })
     .sort({ updated_at: -1 })
     .exec();
 
 const show = (id) =>
   Question.findById({ _id: id })
-    .populate('user', 'username status')
+    .populate('user', 'username avatar status')
     .populate({
       path: 'comments.user',
-      select: 'username status',
+      select: 'username avatar status',
     })
     .sort({ updated_at: -1 })
     .exec();
