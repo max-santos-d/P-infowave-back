@@ -1,12 +1,12 @@
 import { Router } from 'express';
 
 import { indexPost, showPost, deletePost } from '../controller/admReqForPost.controller.js';
-import { postIdValidation } from '../middlewares/global.middleware.js';
+import { administratorUserValidation, postIdValidation } from '../middlewares/global.middleware.js';
 
 const routes = Router();
 
-routes.get('/', indexPost);
-routes.get('/:id', postIdValidation, showPost);
-routes.delete('/:id', postIdValidation, deletePost);
+routes.get('/', administratorUserValidation, indexPost);
+routes.get('/:id', administratorUserValidation, postIdValidation, showPost);
+routes.delete('/:id', administratorUserValidation, postIdValidation, deletePost);
 
 export default routes;

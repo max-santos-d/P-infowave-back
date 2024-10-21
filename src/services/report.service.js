@@ -12,7 +12,7 @@ const postReport = async ({ id }, requestUserId) => {
   return 'reported';
 };
 
-const questionReport = async ({ id }, requestUserId) => {
+const questionReport = async ({ _id: id }, requestUserId) => {
   const response = await reportRepositorie.questionReport(id, requestUserId);
   if (!response) return 'you made a report to this user';
   return 'reported';

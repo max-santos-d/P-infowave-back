@@ -22,7 +22,7 @@ export const postReport = async (req, res) => {
 
 export const questionReport = async (req, res) => {
   try {
-    const response = await reportService.questionReport(req.params, req.requestUserId);
+    const response = await reportService.questionReport(req.questionParams, req.requestUserId, req.query);
     return res.status(200).json({ response });
   } catch (err) {
     console.log(err);

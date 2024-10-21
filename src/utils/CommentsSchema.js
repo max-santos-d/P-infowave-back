@@ -1,5 +1,7 @@
 import { Schema } from 'mongoose';
 
+import reportSchema from './repostSchema.js';
+
 const CommentsSchema = new Schema(
   {
     user: {
@@ -11,6 +13,7 @@ const CommentsSchema = new Schema(
       type: String,
       require: true,
     },
+    report: [reportSchema],
   },
   {
     timestamps: {
