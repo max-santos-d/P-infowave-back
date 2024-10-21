@@ -2,10 +2,10 @@ import Question from '../models/Question.js';
 
 const store = (questionId, userId, text) =>
   Question.findByIdAndUpdate(questionId, { $push: { comments: { user: userId, text: text } } }, { new: true })
-    .populate('user', 'username status')
+    .populate('user', 'username avatar status')
     .populate({
       path: 'comments.user',
-      select: 'username status',
+      select: 'username avatar status',
     })
     .exec();
 
@@ -21,10 +21,10 @@ const index = (question) =>
 
 const show = (question, comment) =>
   Question.find({ _id: question, 'comments._id': { $in: [comment] } })
-    .populate('user', 'username status')
+    .populate('user', 'username avatar status')
     .populate({
       path: 'comments.user',
-      select: 'username status',
+      select: 'username avatar status',
     })
     .sort({ updated_at: -1 })
     .exec();
@@ -35,10 +35,10 @@ const update = (comment, commentId, userId, question) =>
     { $set: { 'comments.$.text': comment } },
     { new: true }
   )
-    .populate('user', 'username status')
+    .populate('user', 'username avatar status')
     .populate({
       path: 'comments.user',
-      select: 'username status',
+      select: 'username avatar status',
     })
     .exec();
 
@@ -48,10 +48,10 @@ const deleted = (questionId, commentId, userId) =>
     { $pull: { comments: { _id: commentId } } },
     { new: true }
   )
-    .populate('user', 'username status')
+    .populate('user', 'username avatar status')
     .populate({
       path: 'comments.user',
-      select: 'username status',
+      select: 'username avatar status',
     })
     .exec();
 

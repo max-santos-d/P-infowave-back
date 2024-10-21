@@ -2,19 +2,19 @@ import Post from '../models/Post.js';
 
 const store = (post, user, text) =>
   Post.findByIdAndUpdate(post, { $push: { comments: { user: user, text: text } } }, { new: true })
-    .populate('user', 'username status')
+    .populate('user', 'username avatar status')
     .populate({
       path: 'comments.user',
-      select: 'username status',
+      select: 'username avatar status',
     })
     .exec();
 
 const index = (post) =>
   Post.findById({ _id: post })
-    .populate('user', 'username status')
+    .populate('user', 'username avatar status')
     .populate({
       path: 'comments.user',
-      select: 'username status',
+      select: 'username avatar status',
     })
     .sort({ updated_at: -1 })
     .exec();
@@ -36,10 +36,10 @@ const update = (comment, commentId, user, post) =>
       arrayFilters: [{ 'comment._id': commentId, 'comment.user': user }], // Adiciona o filtro para o array
     }
   )
-    .populate('user', 'username status')
+    .populate('user', 'username avatar status')
     .populate({
       path: 'comments.user',
-      select: 'username status',
+      select: 'username avatar status',
     })
     .exec();
 
