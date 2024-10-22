@@ -39,10 +39,10 @@ const search = (searchText) =>
 
 const searchByUser = (userId) =>
   Question.find({ user: userId })
-    .populate('user', 'username status')
+    .populate('user', 'username avatar status')
     .populate({
       path: 'comments.user',
-      select: 'username status',
+      select: 'username avatar status',
     })
     .exec();
 

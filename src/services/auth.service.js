@@ -23,6 +23,7 @@ const auth = async ({ login, password }) => {
     user: {
       _id: user._id,
       name: user.name,
+      avatar: user.avatar,
       username: user.username,
       login: user.login,
       userType: user.userType,

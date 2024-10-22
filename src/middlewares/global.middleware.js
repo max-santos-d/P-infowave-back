@@ -78,7 +78,7 @@ export const organizerUserValidation = async (req, res, next) => {
     const filterUserType = userType.filter((i) => i.type === 'organization');
 
     if (!filterUserType.length)
-      return res.status(403).json({ response: 'you do not have permission too acess this request' });
+      return res.status(403).json({ response: 'you do not have permission to acess this request' });
 
     next();
   } catch (err) {
@@ -100,7 +100,7 @@ export const administratorUserValidation = async (req, res, next) => {
 
     if (!userTypeRequest.filter((el) => el.type === 'administration').length)
       return res.status(403).json({
-        messageError: 'you do not have permission too acess this request',
+        messageError: 'you do not have permission to acess this request',
       });
 
     const userToUpdate = (await userRepositorie.show(userToUpdateId)).userType;
@@ -113,8 +113,24 @@ export const administratorUserValidation = async (req, res, next) => {
       if (dateUserRequest.created_at <= dateUsertoUpdate.created_at) return next();
     }
     return res.status(403).json({
-      responseError: 'you do not have permission too acess this request',
+      responseError: 'you do not have permission to acess this request',
     });
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({ responseError: err.message });
+  }
+};
+
+export const administratorValidation = async (req, res, next) => {
+  try {
+    const userRequestId = req.requestUserId;
+    const userTypeRequest = await userRepositorie.show(userRequestId).then((i) => i.userType);
+    if (!userTypeRequest.filter((el) => el.type === 'administration').length)
+      return res.status(403).json({
+        messageError: 'you do not have permission to acess this request',
+      });
+
+    return next();
   } catch (err) {
     console.log(err);
     return res.status(500).json({ responseError: err.message });
