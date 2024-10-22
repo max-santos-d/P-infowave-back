@@ -20,8 +20,14 @@ const deleteQuestion = async ({ id }) => {
   return 'question deleted';
 };
 
+const clearReport = async ({ id }) => {
+  await admReqForQuestionRepositorie.clearReport(id);
+  return 'reports reset';
+};
+
 export default {
   indexQuestion,
   showQuestion,
   deleteQuestion,
+  clearReport,
 };

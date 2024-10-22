@@ -29,3 +29,13 @@ export const deletePost = async (req, res) => {
     return res.status(500).json({ responseError: err.message });
   }
 };
+
+export const clearReport = async (req, res) => {
+  try {
+    const response = await admReqForPostRepositorie.clearReport(req.params);
+    return res.status(200).json({ response });
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({ responseError: err.message });
+  }
+};

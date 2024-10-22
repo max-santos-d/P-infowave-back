@@ -14,6 +14,11 @@ const showPost = async ({ id }) => {
   return response;
 };
 
+const clearReport = async ({ id }) => {
+  await admReqForPostRepositorie.clearReport(id);
+  return 'reports reset';
+};
+
 const deletePost = async ({ id }) => {
   await admReqForPostRepositorie.deletePost(id);
   return 'post deleted';
@@ -23,4 +28,5 @@ export default {
   indexPost,
   showPost,
   deletePost,
+  clearReport,
 };
