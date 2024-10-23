@@ -3,7 +3,7 @@ import postRepositorie from '../repositories/post.repositorie.js';
 const store = async (user, body) => {
   const { title = '', text = '', banner = '' } = body;
 
-  if (!title || !text) throw new Error('Required Fields.');
+  if (!title || !text) throw new Error('required Fields');
 
   const response = await postRepositorie.store({
     title,
@@ -12,7 +12,7 @@ const store = async (user, body) => {
     user,
   });
 
-  if (!response) throw new Error('Error creating user.');
+  if (!response) throw new Error('error creating user.');
 
   return response;
 };
@@ -51,17 +51,17 @@ const index = async ({ searchText }) => {
 const update = async (id, body) => {
   const { title, text, banner } = body;
 
-  if (!title && !text && !banner) throw new Error('At least one field is requeired.');
+  if (!title && !text && !banner) throw new Error('at least one field is requeired');
 
   const response = await postRepositorie.update(id, { title, text, banner });
 
-  if (!response) throw new Error('Error when updating.');
+  if (!response) throw new Error('error when updating');
   return response;
 };
 
 const deleted = async (id) => {
   await postRepositorie.deleted(id);
-  return 'Post deleted.';
+  return 'post deleted';
 };
 
 export default {

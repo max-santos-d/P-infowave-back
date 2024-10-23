@@ -14,6 +14,7 @@ import admReqForUsersRoutes from './admReqForUser.routes.js';
 import admReqForPostRoutes from './admReqForPost.routes.js';
 import admReqForQuestionRoutes from './admReqForQuestion.routes.js';
 import reportRouters from './report.routes.js';
+import aboutRoutes from './about.routes.js';
 
 const router = Router();
 
@@ -42,5 +43,8 @@ router.use('/admReqForQuestion', admReqForQuestionRoutes);
 
 //report request
 router.use('/report', reportRouters);
+
+//about request
+router.use('/about', aboutRoutes);
 
 export default router;
