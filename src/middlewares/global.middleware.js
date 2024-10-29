@@ -2,6 +2,7 @@ import userRepositorie from '../repositories/user.repositorie.js';
 import postRepositorie from '../repositories/post.repositorie.js';
 import questionRepositorie from '../repositories/question.repositorie.js';
 import mongoDbIdValidate from '../validators/mongoDbIdValidate.js';
+import aboutRepositorie from '../repositories/about.repositorie.js';
 
 export const userIdValidation = async (req, res, next) => {
   try {
@@ -16,11 +17,24 @@ export const userIdValidation = async (req, res, next) => {
   }
 };
 
+export const aboutIdValidation = async (req, res, next) => {
+  try {
+    if (!mongoDbIdValidate(req.params.id)) return res.status(400).json({ responseError: 'inválid ID' });
+    const about = await aboutRepositorie.show(req.params.id);
+    if (!about) return res.status(404).json({ response: 'about not found' });
+    req.aboutParams = about;
+    next();
+  } catch (err) {
+    console.log(err);
+    return res.status(500).send({ responseError: err.message });
+  }
+};
+
 export const postIdValidation = async (req, res, next) => {
   try {
     if (!mongoDbIdValidate(req.params.id)) return res.status(400).json({ responseError: 'inválid ID' });
     const post = await postRepositorie.show(req.params.id);
-    if (!post) return res.status(404).json({ response: 'post not found.' });
+    if (!post) return res.status(404).json({ response: 'post not found' });
     req.postParams = {
       _id: post._id,
       title: post.title,

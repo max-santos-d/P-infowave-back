@@ -8,7 +8,7 @@ const UserSchema = new Schema(
   {
     name: {
       type: String,
-      required: [true, 'is a required field.'],
+      required: [true, 'is a required field'],
       minlength: [6, 'must be at least 6 characters long'],
       maxlength: [50, 'must have a maximum of 50 characters'],
     },

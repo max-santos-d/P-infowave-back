@@ -21,7 +21,7 @@ const index = async ({ searchText = '' }) => {
   return await aboutRepositorie.index();
 };
 
-const update = async (id, body) => {
+const update = async ({ _id: id }, body) => {
   const { title, text, banner } = body;
 
   if (!title && !text && !banner) throw new Error('at least one field is requeired');
@@ -34,7 +34,7 @@ const update = async (id, body) => {
   return reponse;
 };
 
-const deleted = async (id) => {
+const deleted = async ({ _id: id }) => {
   await aboutRepositorie.deleted(id);
   return 'deleted';
 };
