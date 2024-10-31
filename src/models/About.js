@@ -10,7 +10,7 @@ const AboutSchema = new mongoose.Schema(
       type: String,
       required: [true, 'is a required field.'],
     },
-    direction: {
+    location: {
       type: String,
       required: [true, 'is a required field.'],
     },
