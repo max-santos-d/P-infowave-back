@@ -6,7 +6,11 @@ const AboutSchema = new mongoose.Schema(
       type: String,
       required: [true, 'is a required field.'],
     },
-    text: {
+    description: {
+      type: String,
+      required: [true, 'is a required field.'],
+    },
+    direction: {
       type: String,
       required: [true, 'is a required field.'],
     },

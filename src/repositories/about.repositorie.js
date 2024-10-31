@@ -9,7 +9,7 @@ const search = (searchText) =>
   About.find({
     $or: [
       { title: { $regex: searchText, $options: 'i' } }, // 'i' para case insensitive
-      { text: { $regex: searchText, $options: 'i' } },
+      { description: { $regex: searchText, $options: 'i' } },
     ],
   }).exec();
 

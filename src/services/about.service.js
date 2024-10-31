@@ -2,14 +2,14 @@ import aboutRepositorie from '../repositories/about.repositorie.js';
 import dataValidation from '../validators/dataValidation.js';
 
 const store = async (body) => {
-  const { title = '', text = '', banner = '' } = body;
+  const { title = '', description = '', direction = '', banner = '' } = body;
 
-  if (!title || !text) throw new Error('required Fields');
+  if (!title || !description || !direction) throw new Error('required Fields');
   if (banner) {
     if (!dataValidation.urlValidate(banner)) throw new Error('invalid URL');
   }
 
-  const response = await aboutRepositorie.store({ title, text, banner });
+  const response = await aboutRepositorie.store({ title, description, direction, banner });
   return response;
 };
 
@@ -22,14 +22,14 @@ const index = async ({ searchText = '' }) => {
 };
 
 const update = async ({ _id: id }, body) => {
-  const { title, text, banner } = body;
+  const { title, description, direction, banner } = body;
 
-  if (!title && !text && !banner) throw new Error('at least one field is requeired');
+  if (!title && !description && !direction && !banner) throw new Error('at least one field is requeired');
   if (banner) {
     if (!dataValidation.urlValidate(banner)) throw new Error('invalid URL');
   }
 
-  const reponse = await aboutRepositorie.update(id, { title, text, banner });
+  const reponse = await aboutRepositorie.update(id, { title, description, direction, banner });
   if (!reponse) throw new Error('error when updating');
   return reponse;
 };
